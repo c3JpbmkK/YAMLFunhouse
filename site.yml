@@ -1,0 +1,15 @@
+---
+- name: Group nodes 
+  import_playbook: playbooks/control.yml
+  vars:
+    site_directory: /home/ansible/k8s 
+
+- name: Bootstrap primary node 
+  import_playbook: playbooks/primary.yml
+  vars:
+    site_directory: /home/ansible/k8s 
+
+#- name: Setup HA
+#  import_playbook: ha.yml
+#  vars:
+#    site_directory: /home/ansible/k8s 

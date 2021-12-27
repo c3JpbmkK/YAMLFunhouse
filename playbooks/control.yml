@@ -1,0 +1,28 @@
+---
+- name: Group nodes
+  hosts: localhost 
+  tasks:
+
+  - name: Select a random node in the control_plane group to bootstrap
+    add_host:
+      hostname: "{{ vars['groups']['control_plane'] | random }}"
+      groups: initnode
+
+  - name: Group remaining nodes
+    loop: "{{ vars['groups']['control_plane']}}"
+    when: 'item not in vars["groups"]["initnode"]'
+    add_host:
+      hostname: "{{ item }}"
+      groups: hagroup
+
+  - debug:
+      msg: "{{ site_directory }}"
+  - name: Make local facts directory
+    file:
+      path: "{{ site_directory }}/facts"
+      state: directory
+ 
+  - name: Make local .kube directory
+    file:
+      path: "~/.kube"
+      state: directory

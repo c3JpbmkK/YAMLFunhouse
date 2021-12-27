@@ -1,0 +1,18 @@
+- name: Bootstrap primary node
+  hosts: initnode 
+  vars:
+    primary: yes
+  roles:
+  - kubernetes
+  tasks:
+  - name: Fetch bootstrap secrets
+    fetch:
+      src: /etc/ansible/facts.d/bootstrap.fact
+      dest: "{{ site_directory }}/facts/bootstrap.fact"
+      flat: yes
+
+  - name: Fetch admin kubeconfig from initnode
+    fetch:
+      src: /root/.kube/config
+      dest: ~/.kube/config
+      flat: yes

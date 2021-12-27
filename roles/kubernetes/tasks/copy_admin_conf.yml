@@ -1,0 +1,15 @@
+- name: Remove previously created local dir 
+  file:
+    path: /root/.kube
+    state: absent
+
+- name: Create local dir for kubeconfig
+  file:
+    path: /root/.kube
+    state: directory
+
+- name: Symlink admin conf to local dir
+  file:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    state: link

@@ -1,0 +1,13 @@
+- name: Get list of secrets
+  register: secrets
+  k8s_info:
+    namespace: kube-system
+    kind: Secret
+
+- name: Get kubeadm bootstrap token secret
+  vars:
+    jmespath_query: "resources[?starts_with(metadata.name,'bootstrap-token')]"
+  loop: "{{ secrets | to_json | from_json | json_query(jmespath_query) }}"
+  when: 'item.data.description|b64decode == bootstrap_token_description'
+  command: echo "{{ item['data']['token-id']|b64decode }}.{{ item['data']['token-secret']|b64decode }}" 
+  register: bootstrap_token

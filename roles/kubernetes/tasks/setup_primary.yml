@@ -1,0 +1,53 @@
+- name: Generate certificate key
+  shell: kubeadm certs certificate-key
+  register: certificate_key
+
+- name: Init and store results
+  shell: kubeadm init --control-plane-endpoint "{{ api_loadbalancer }}:6443" --upload-certs --pod-network-cidr "{{ pod_network_cidr }}" --service-cidr "{{ service_network_cidr }}" --certificate-key {{ certificate_key.stdout }}
+  register: init_output
+
+- name: Setup kubeconfig
+  import_tasks: copy_admin_conf.yml
+
+- name: Setup container networking plugin
+  ignore_errors: yes
+  shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+- name: Get list of secrets
+  register: secrets
+  k8s_info:
+    namespace: kube-system
+    kind: Secret
+
+- name: Get kubeadm bootstrap token secret
+  vars:
+    jmespath_query: "resources[?starts_with(metadata.name,'bootstrap-token')]"
+  loop: "{{ secrets | to_json | from_json | json_query(jmespath_query) }}"
+  when: 'item.data.description|b64decode == bootstrap_token_description'
+  set_fact: 
+    bootstrap_token: "{{ item['data']['token-id']|b64decode }}.{{ item['data']['token-secret']|b64decode }}" 
+
+- name: Get ca cert hash
+  register: ca_cert_hash
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null |sha256sum --tag | sed "s/.*= /sha256:/"
+
+- name: Recreate facts directory
+  file:
+    path: /etc/ansible/facts.d
+    state: absent
+
+- name: Setup facts directory 
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+
+- name: Save secrets as fact file
+  loop:
+  - {"key":"certificate_key","value":"{{ certificate_key.stdout }}"}
+  - {"key":"ca_cert_hash","value":"{{ ca_cert_hash.stdout }}"}
+  - {"key":"bootstrap_token","value":"{{ bootstrap_token }}"}
+  ini_file:
+    path: /etc/ansible/facts.d/bootstrap.fact
+    section: kubernetes
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"

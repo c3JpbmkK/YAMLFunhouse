@@ -1,0 +1,25 @@
+---
+# tasks file for nodes in control_plane group 
+- name: Enable kubelet 
+  service:
+    name: kubelet
+    state: restarted
+    enabled: yes
+
+- name: Reset before init
+  tags: reset
+  shell: kubeadm reset --force
+
+- name: Restart kubelet
+  service:
+    name: kubelet
+    state: restarted
+
+- name: Setup primary node
+  when: primary == true
+  include_tasks: setup_primary.yml
+
+- name: Setup ha nodes
+  when: primary == false
+  include_tasks: setup_ha.yml
+

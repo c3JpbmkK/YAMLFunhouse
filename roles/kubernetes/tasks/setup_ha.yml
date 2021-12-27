@@ -1,0 +1,6 @@
+- name: Join cluster 
+  shell: kubeadm join "{{ api_loadbalancer }}:6443" --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" --control-plane --certificate-key "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['certificate_key'] }}"
+  register: init_output
+
+- name: Setup kubeconfig
+  import_tasks: copy_admin_conf.yml

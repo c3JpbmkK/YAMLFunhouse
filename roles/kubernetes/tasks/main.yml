@@ -1,0 +1,67 @@
+---
+# tasks file for roles/master_node
+- name: Disable swap
+  when: swap == false
+  import_tasks: swap_off.yml
+
+- name: Enable kernel modules 
+  loop: "{{ loadable_modules }}"
+  modprobe:
+    name: "{{ item }}" 
+
+- name: Touch kernel parameters file
+  file:
+    path: /etc/sysctl.d/k8s.conf
+    state: touch
+
+- name: Add kernel parameters
+  loop: "{{ kernel_parameters }}"
+  lineinfile:
+    line: "{{ item.key }}={{ item.value }}"
+    path: /etc/sysctl.d/k8s.conf
+  
+- name: Load kernel parameters
+  command: sysctl --system
+
+- name: Setup containerd
+  include_role:
+    name: geerlingguy.containerd
+
+- name: Disable SELinux
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Disable Firewalld
+  service:
+    name: firewalld
+    enabled: no
+    state: stopped
+
+- name: Setup kubernetes repo
+  yum_repository:
+    name: "{{ kubernetes_repo.name }}"
+    description: "{{ kubernetes_repo.description }}"
+    baseurl: "{{ kubernetes_repo.baseurl }}"
+    enabled: "{{ kubernetes_repo.enabled }}"
+    gpgcheck: "{{ kubernetes_repo.gpgcheck }}"
+    gpgkey: "{{ kubernetes_repo.gpgkey }}"
+    exclude: "{{ kubernetes_repo.excludes }}"
+
+- name: Install packages
+  dnf:
+    disable_excludes: Kubernetes
+    name: "{{ k8s_packages }}"
+
+- name: Install python modules
+  pip:
+    name: openshift
+    state: present
+
+- name: Setup control plane nodes
+  when: '"control_plane" in group_names'
+  import_tasks: control_plane.yml
+
+- name: Setup worker plane nodes
+  when: '"worker_plane" in group_names'
+  import_tasks: worker_plane.yml

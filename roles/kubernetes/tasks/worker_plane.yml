@@ -1,0 +1,7 @@
+---
+# tasks file for nodes in worker_plane group 
+- name: Enable kubelet  
+  service:
+    name: kubelet
+    state: restarted
+    enabled: yes
