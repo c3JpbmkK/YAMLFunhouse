@@ -1,0 +1,12 @@
+---
+- name: Remove containers and disable kubelet
+  hosts: nodes
+  tasks:
+  - name: Disable kubelet
+    service:
+      name: kubelet
+      enabled: no
+      state: stopped
+
+  - name: Force remove all containers
+    command: crictl rm -fa 2>/dev/null
