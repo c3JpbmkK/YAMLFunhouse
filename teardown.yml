@@ -1,6 +1,6 @@
 ---
 - name: Remove containers and disable kubelet
-  hosts: nodes
+  hosts: allnodes
   tasks:
   - name: Disable kubelet
     service:

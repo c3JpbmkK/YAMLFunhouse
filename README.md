@@ -1,14 +1,8 @@
 # Bring up a cluster using Ansible
 # Why ? Why not :) 
 
-When VMs are preconfigured  
+When VMs are preconfigured (network and SSH) 
 
-ansible-playbook site.yml
-real    1m32.209s  
-user    0m17.146s  
-sys     0m6.781s  
-
-ansible-playbook teardown.yml  
-real    0m6.150s  
-user    0m1.736s  
-sys     0m0.567s  
+* To bring up a cluster: ansible-playbook site.yml
+  * To use a different cni plugin (default is Weave): ansible-playbook site.yml -e cni_plugin=cilium
+* To destroy a cluster: ansible-playbook teardown.yml  

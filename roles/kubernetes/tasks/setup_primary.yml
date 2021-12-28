@@ -2,7 +2,7 @@
   shell: kubeadm certs certificate-key
   register: certificate_key
 
-- name: Init and store results
+- name: kubeadm init 
   shell: kubeadm init --control-plane-endpoint "{{ api_loadbalancer }}:6443" --upload-certs --pod-network-cidr "{{ pod_network_cidr }}" --service-cidr "{{ service_network_cidr }}" --certificate-key {{ certificate_key.stdout }}
   register: init_output
 
@@ -11,6 +11,11 @@
   vars:
     config_file_name: admin.conf
 
+- name: Deploy metrics server
+  vars:
+    metrics_server_manifest: "https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
+  command: kubectl apply -f  "{{ metrics_server_manifest }}"
+
 - name: Get list of secrets
   register: secrets
   k8s_info:
@@ -18,6 +23,7 @@
     kind: Secret
 
 - name: Get kubeadm bootstrap token secret
+  no_log: true
   vars:
     jmespath_query: "resources[?starts_with(metadata.name,'bootstrap-token')]"
   loop: "{{ secrets | to_json | from_json | json_query(jmespath_query) }}"
@@ -40,6 +46,7 @@
     state: directory
 
 - name: Save secrets as fact file
+  no_log: true
   loop:
   - {"key":"certificate_key","value":"{{ certificate_key.stdout }}"}
   - {"key":"ca_cert_hash","value":"{{ ca_cert_hash.stdout }}"}

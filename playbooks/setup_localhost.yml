@@ -15,8 +15,6 @@
       hostname: "{{ item }}"
       groups: hagroup
 
-  - debug:
-      msg: "{{ site_directory }}"
   - name: Make local facts directory
     file:
       path: "{{ site_directory }}/facts"

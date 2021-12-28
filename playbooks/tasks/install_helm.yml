@@ -1,14 +1,54 @@
+  # tasks level indentation
+  # Add playbook keywords to quickly test file
   - name: Check if Helm is installed
+    ignore_errors: true
     command: helm version
     register: helm_output
 
   - name: Install Helm
     when: helm_output.rc != 0
-    vars:
-      helm_latest_release_url: https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
-      helm_latest_release_url_sha256sum: "{{ helm_latest_release_uri }}.sha256sum"
-    get_url:
-      url: "{{ helm_latest_release_url }}"
-      dest: /tmp/helm.tar.gz
-      checksum: "{{ helm_latest_release_url_sha256sum }}"
+    block:
+    - name: Setup dropsite
+      file:
+        path: /tmp/ansible_downloads
+        state: directory
 
+    - name: Download Helm
+      vars:
+        helm_latest_release_url: https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+        helm_latest_release_url_sha256sum: "sha256:{{ helm_latest_release_url }}.sha256sum"
+      get_url:
+        url: "{{ helm_latest_release_url }}"
+        dest: /tmp/ansible_downloads/helm.tar.gz
+        checksum: "{{ helm_latest_release_url_sha256sum }}"
+
+    - name: Create temp directory
+      file: 
+        path: /tmp/ansible_downloads/contents
+        state: directory
+
+    - name: Unpack Helm archive
+      unarchive:
+        src: /tmp/ansible_downloads/helm.tar.gz
+        dest: /tmp/ansible_downloads/contents
+
+    - name: Copy helm cli to /bin
+      copy:
+        src: /tmp/ansible_downloads/contents/linux-amd64/helm
+        dest: /bin/helm
+        mode: 0755
+
+    - name: Remove dropsite
+      file:
+        path: /tmp/ansible_downloads
+        state: absent
+
+  - name: Check Helm install
+    command: helm version
+    changed_when: no
+    register: helm_output
+
+  - name: Ensure Helm is installed
+    fail:
+      msg: "Helm install unsuccessfull"
+    when: helm_output.rc != 0

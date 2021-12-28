@@ -15,9 +15,10 @@
     cni_plugin: ""
 
 - name: Setup HA
-  when: ha is defined 
+  when: high_availability 
   import_playbook: playbooks/add_nodes_to_control_plane.yml
   vars:
+    high_availability: false 
     site_directory: /home/ansible/k8s 
 
 - name: Setup workers

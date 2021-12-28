@@ -1,0 +1,63 @@
+  # tasks level indentation
+  # Add playbook keywords to quickly test file
+  - name: Check if Kubectl is installed
+    ignore_errors: true
+    command: kubectl version --client=true
+    register: kubectl_output
+
+  - name: Install Kubectl
+    when: kubectl_output.rc != 0
+    block:
+    - name: Setup dropsite
+      file:
+        path: /tmp/ansible_downloads
+        state: directory
+
+    - name: GET k8s stable release id
+      uri:
+        url: https://dl.k8s.io/release/stable.txt
+        method: GET
+        follow_redirects: yes
+        return_content: yes
+      register: stable_release
+
+    - name: GET k8s stable release checksum 
+      vars:
+        kubectl_stable_release: "{{ stable_release.content }}"
+      uri:
+        url: "https://dl.k8s.io/{{ kubectl_stable_release }}/bin/linux/amd64/kubectl.sha256"
+        method: GET
+        follow_redirects: yes
+        return_content: yes
+      register: stable_release_checksum
+
+    - name: Download Kubectl
+      vars:
+        kubectl_stable_release: "{{ stable_release.content }}"
+        kubectl_stable_release_url: "https://dl.k8s.io/release/{{ kubectl_stable_release }}/bin/linux/amd64/kubectl" 
+        kubectl_stable_release_url_sha256sum: "sha256:{{ stable_release_checksum.content }}"
+      get_url:
+        url: "{{ kubectl_stable_release_url }}"
+        dest: /tmp/ansible_downloads/kubectl
+        checksum: "{{ kubectl_stable_release_url_sha256sum }}"
+
+    - name: Copy kubectl cli to /bin
+      copy:
+        src: /tmp/ansible_downloads/kubectl
+        dest: /bin/kubectl
+        mode: 0755
+
+    - name: Remove dropsite
+      file:
+        path: /tmp/ansible_downloads
+        state: absent
+
+  - name: Check Kubectl install
+    command: kubectl version --client=true
+    changed_when: no
+    register: kubectl_output
+
+  - name: Ensure Kubectl is installed
+    fail:
+      msg: "Kubectl install unsuccessfull"
+    when: kubectl_output.rc != 0

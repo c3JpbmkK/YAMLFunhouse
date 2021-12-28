@@ -1,0 +1,17 @@
+  - name: Setup Cilium repository
+    command: |
+      helm repo add cilium https://helm.cilium.io/
+
+  - name: Update helm repos
+    command: |
+      helm repo update
+
+
+  - name: Deploy Cilium
+    command: |
+      helm install cilium cilium/cilium \
+                  --version 1.11.0 \
+                  --namespace kube-system \
+                  --set kubeProxyReplacement=strict \
+                  --set k8sServiceHost=lbinternal.example.com \
+                  --set k8sServicePort=6443

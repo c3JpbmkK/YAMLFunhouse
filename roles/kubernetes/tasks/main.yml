@@ -22,10 +22,6 @@
 - name: Load kernel parameters
   command: sysctl --system
 
-- name: Setup containerd
-  include_role:
-    name: geerlingguy.containerd
-
 - name: Disable SELinux
   selinux:
     policy: targeted
