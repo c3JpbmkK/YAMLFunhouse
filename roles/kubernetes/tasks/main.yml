@@ -1,7 +1,7 @@
 ---
 - name: Disable swap
   when: swap == false
-  import_tasks: swap_off.yml
+  include_tasks: swap_off.yml
 
 - name: Enable kernel modules 
   loop: "{{ loadable_modules }}"
@@ -55,8 +55,8 @@
 
 - name: Setup control plane nodes
   when: '"control_plane" in group_names'
-  import_tasks: control_plane.yml
+  include_tasks: control_plane.yml
 
 - name: Setup worker plane nodes
   when: '"worker_plane" in group_names'
-  import_tasks: worker_plane.yml
+  include_tasks: worker_plane.yml

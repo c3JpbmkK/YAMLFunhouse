@@ -3,6 +3,7 @@
   - name: Check if Helm is installed
     ignore_errors: true
     command: helm version
+    changed_when: false
     register: helm_output
 
   - name: Install Helm
@@ -33,6 +34,7 @@
         dest: /tmp/ansible_downloads/contents
 
     - name: Copy helm cli to /bin
+      become: yes
       copy:
         src: /tmp/ansible_downloads/contents/linux-amd64/helm
         dest: /bin/helm

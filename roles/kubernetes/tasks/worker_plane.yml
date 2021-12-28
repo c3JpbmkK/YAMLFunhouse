@@ -15,4 +15,4 @@
     state: restarted
 
 - name: Join worker node 
-  import_tasks: setup_worker.yml
+  include_tasks: setup_worker.yml

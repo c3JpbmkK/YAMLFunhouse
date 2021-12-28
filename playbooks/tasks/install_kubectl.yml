@@ -3,6 +3,7 @@
   - name: Check if Kubectl is installed
     ignore_errors: true
     command: kubectl version --client=true
+    changed_when: false
     register: kubectl_output
 
   - name: Install Kubectl
@@ -42,6 +43,7 @@
         checksum: "{{ kubectl_stable_release_url_sha256sum }}"
 
     - name: Copy kubectl cli to /bin
+      become: yes
       copy:
         src: /tmp/ansible_downloads/kubectl
         dest: /bin/kubectl

@@ -3,7 +3,7 @@
   register: init_output
 
 - name: Setup kubeconfig
-  import_tasks: copy_kubeconfig.yml
+  include_tasks: copy_kubeconfig.yml
   vars:
     config_file_name: kubelet.conf 
 

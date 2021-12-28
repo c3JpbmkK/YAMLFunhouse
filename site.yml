@@ -15,7 +15,7 @@
     cni_plugin: ""
 
 - name: Setup HA
-  when: high_availability 
+  when: high_availability | bool 
   import_playbook: playbooks/add_nodes_to_control_plane.yml
   vars:
     high_availability: false 

@@ -20,11 +20,9 @@ worker_plane
 
 [control_plane]
 master1
-master3
 
 [worker_plane]
 worker1
-worker2
 
 [loadbalancer]
 lb

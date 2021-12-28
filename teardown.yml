@@ -10,3 +10,13 @@
 
   - name: Force remove all containers
     command: crictl rm -fa 2>/dev/null
+
+  - name: Remove existing kubernetes configuration
+    file:
+      path: /etc/kubernetes
+      state: absent
+
+  - name: Remove existing etcd configuration
+    file:
+      path: /var/lib/etcd
+      state: absent
