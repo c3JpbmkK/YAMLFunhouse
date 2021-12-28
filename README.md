@@ -5,7 +5,8 @@ Plus I'm learning to use Ansible
 
 ## Setup  
 
-* host: Windows  
+* host:  
+  * os: Windows
   * cpu: 4 (8 logical)  
   * memory: 16GB  
 * vm_provisioner: vmware
@@ -15,6 +16,7 @@ Plus I'm learning to use Ansible
   * loadbalancer_node: 1
   * ansible_control_node: 1 (optional, you can use Ansible directly from host, but I have a Windows host :confused:)
 * guest:
+  * os: linux(Linux 4.18.0-348.7.1.el8_5.x86_64)
   * cpu:
     * control_plane_nodes: 2
     * worker_nodes: 2
