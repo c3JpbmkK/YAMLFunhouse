@@ -1,6 +1,6 @@
 # Bring up a cluster using Ansible  
 
-Why ? Why not &#1F603;
+Why ? Why not :grinning:  
 Plus I'm learning to use Ansible  
 
 ## Setup  
@@ -13,7 +13,7 @@ Plus I'm learning to use Ansible
   * control_plane_nodes: 3
   * worker_nodes: 3
   * loadbalancer_node: 1
-  * ansible_control_node: 1 (optional, you can use Ansible directly from host, but I have a Windows host &#1F615;)
+  * ansible_control_node: 1 (optional, you can use Ansible directly from host, but I have a Windows host :confused:)
 * guest:
   * cpu:
     * control_plane_nodes: 2
