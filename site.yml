@@ -9,7 +9,14 @@
   vars:
     site_directory: /home/ansible/k8s 
 
-#- name: Setup HA
-#  import_playbook: ha.yml
-#  vars:
-#    site_directory: /home/ansible/k8s 
+- name: Setup HA
+  when: ha is defined 
+  import_playbook: playbooks/ha.yml
+  vars:
+    site_directory: /home/ansible/k8s 
+
+- name: Setup workers
+  import_playbook: playbooks/worker.yml
+  vars:
+    site_directory: /home/ansible/k8s 
+

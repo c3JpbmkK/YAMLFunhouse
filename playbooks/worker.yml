@@ -1,0 +1,28 @@
+- name: Setup workers 
+  hosts: worker_plane
+  gather_facts: no
+  vars:
+    primary: no
+  tasks:
+  - name: Recreate facts directory 
+    file:
+      path: /etc/ansible/facts.d
+      state: absent 
+
+  - name: Setup facts directory
+    file:
+      path: /etc/ansible/facts.d
+      state: directory
+
+  - name: Copy fact to worker nodes
+    copy:
+      src: "{{ site_directory }}/facts/bootstrap.fact"
+      dest: /etc/ansible/facts.d/bootstrap.fact
+
+  - name: Gather facts after copying local facts file
+    setup:
+
+  - name: Join nodes to cluster
+    include_role:
+      name: kubernetes
+

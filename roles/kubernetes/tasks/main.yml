@@ -1,5 +1,4 @@
 ---
-# tasks file for roles/master_node
 - name: Disable swap
   when: swap == false
   import_tasks: swap_off.yml

@@ -1,7 +1,18 @@
 ---
-# tasks file for nodes in worker_plane group 
-- name: Enable kubelet  
+- name: Enable kubelet 
   service:
     name: kubelet
     state: restarted
     enabled: yes
+
+- name: Reset before init
+  tags: reset
+  shell: kubeadm reset --force
+
+- name: Restart kubelet
+  service:
+    name: kubelet
+    state: restarted
+
+- name: Join worker node 
+  import_tasks: setup_worker.yml

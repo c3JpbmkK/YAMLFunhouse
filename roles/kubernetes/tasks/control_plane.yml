@@ -1,5 +1,4 @@
 ---
-# tasks file for nodes in control_plane group 
 - name: Enable kubelet 
   service:
     name: kubelet

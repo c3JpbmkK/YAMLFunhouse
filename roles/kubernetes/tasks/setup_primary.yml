@@ -7,8 +7,9 @@
   register: init_output
 
 - name: Setup kubeconfig
-  import_tasks: copy_admin_conf.yml
-
+  import_tasks: copy_kubeconfig.yml
+  vars:
+    config_file_name: admin.conf
 - name: Setup container networking plugin
   ignore_errors: yes
   shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
