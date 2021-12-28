@@ -1,0 +1,105 @@
+---
+- name: Setup vsftpd on control
+  hosts: localhost
+  become: yes
+  collections:
+  - ansible.posix
+  - ansible.builtin
+  - community.general
+  tasks:
+  - name: Install vsftpd
+    dnf:
+      name: vsftpd
+      state: present
+
+  - name: Mount cdrom
+    mount:
+      src: /dev/sr0
+      path: /var/ftp/repo
+      fstype: iso9660
+      state: mounted
+
+  - name: Disable SELinux
+    selinux:
+      policy: targeted
+      state: permissive
+  
+  - name: Setup anonymous access to vsftpd
+    lineinfile:
+      regex: anonymous_enable.*
+      line: anonymous_enable=YES
+      path: /etc/vsftpd/vsftpd.conf
+
+  - name: Restart vsftpd
+    service:
+      name: vsftpd
+      state: restarted
+      enabled: yes
+
+  - name: Enable ftp firewalld service
+    firewalld:
+      service: ftp
+      state: enabled
+      immediate: yes
+      permanent: yes
+
+  - name: Restart firewalld
+    service:
+      name: firewalld
+      state: restarted
+      enabled: yes
+
+- name: Setup repositories on nodes
+  hosts: all
+  become: yes
+  gather_facts: yes
+  collections:
+  - ansible.posix
+  - ansible.builtin
+  - community.general
+  tasks:
+  - name: Copy hosts file
+    tags: hosts
+    copy:
+      src: /etc/hosts
+      dest: /etc/hosts
+
+  - name: Setup hostname
+    tags: hostname
+    shell: hostnamectl set-hostname {{ inventory_hostname }}
+
+  - name: Create AppStream repository
+    yum_repository:
+      name: AppStream
+      description: AppStream repository on ftp://control.example.com
+      baseurl: ftp://control.example.com/repo/AppStream/
+      enabled: yes
+      gpgcheck: yes
+      gpgkey: 
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+
+  - name: Create BaseOS repository
+    yum_repository:
+      name: BaseOS
+      description: BaseOS repository on ftp://control.example.com
+      baseurl: ftp://control.example.com/repo/BaseOS/
+      enabled: yes
+      gpgcheck: yes
+      gpgkey: 
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+
+  - name: Configure correct timezone
+    timezone:
+      name: Europe/Berlin
+
+
+  - name: Use rhel-system-role timesync to configure timedatectl on managed nodes
+    include_role:
+      name: rhel-system-roles.timesync
+    vars:
+      timesync_ntp_servers:
+      - hostname: control.example.com
+        iburst: yes
+        pool: no

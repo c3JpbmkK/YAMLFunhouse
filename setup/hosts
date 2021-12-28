@@ -1,0 +1,14 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.20.30.2  control.example.com control
+10.20.30.3  lb.example.com lb
+
+10.20.31.128  lbinternal.example.com lbinternal
+10.20.31.2  master1.example.com master1
+10.20.31.3  master2.example.com master2
+10.20.31.4  master3.example.com master3
+
+10.20.32.2  worker1.example.com worker1
+10.20.32.3  worker2.example.com worker2
+10.20.32.4  worker3.example.com worker3
