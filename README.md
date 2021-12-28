@@ -1,7 +1,7 @@
 # Bring up a cluster using Ansible  
 
-Why ? Why not :grinning:  
-Plus I'm learning to use Ansible  
+Why ? Why not  
+Plus I'm learning to use Ansible :grinning:  
 
 ## Setup  
 
