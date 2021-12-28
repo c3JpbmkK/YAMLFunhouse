@@ -93,13 +93,3 @@
   - name: Configure correct timezone
     timezone:
       name: Europe/Berlin
-
-
-  - name: Use rhel-system-role timesync to configure timedatectl on managed nodes
-    include_role:
-      name: rhel-system-roles.timesync
-    vars:
-      timesync_ntp_servers:
-      - hostname: control.example.com
-        iburst: yes
-        pool: no

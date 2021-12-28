@@ -1,21 +1,30 @@
 # Bring up a cluster using Ansible  
 
-Why ? Why not :)  
+Why ? Why not &#1F603;
 Plus I'm learning to use Ansible  
 
-## Environment  
+## Setup  
 
 * host: Windows  
   * cpu: 4 (8 logical)  
   * memory: 16GB  
 * vm_provisioner: vmware
+* vms:
+  * control_plane_nodes: 3
+  * worker_nodes: 3
+  * loadbalancer_node: 1
+  * ansible_control_node: 1 (optional, you can use Ansible directly from host, but I have a Windows host &#1F615;)
 * guest:
-  * cpus:
+  * cpu:
     * control_plane_nodes: 2
     * worker_nodes: 2
   * memory:
     * control_plane_nodes: 2GB
     * worker_nodes: 4GB
+* network:
+  * host only private network for vms (+NAT for ansible control node)
+  * (vmware) LAN segment for control plane nodes
+  * (vmware) LAN segment for worker nodes
 
 ## Steps  
 
