@@ -1,0 +1,21 @@
+---
+- name: Deploy CNI plugin onto cluster
+  hosts: localhost
+  tasks:
+  - name: Setup kubectl on localhost
+    import_tasks: tasks/install_kubectl.yml
+
+  - name: Setup Helm on localhost
+    import_tasks: tasks/install_helm.yml
+
+  - name: Deploy weave
+    when: 'cni_plugin == ""'
+    ignore_errors: yes
+    vars:
+      weave_manifest_url: "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+    shell: kubectl apply -f "{{ weave_manifest_url }}" 
+
+  - name: Deploy Cilium
+    when: 'cni_plugin == "cilium"'
+    import_tasks: tasks/deploy_cilium.yml
+    

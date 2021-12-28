@@ -1,0 +1,14 @@
+  - name: Check if Helm is installed
+    command: helm version
+    register: helm_output
+
+  - name: Install Helm
+    when: helm_output.rc != 0
+    vars:
+      helm_latest_release_url: https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+      helm_latest_release_url_sha256sum: "{{ helm_latest_release_uri }}.sha256sum"
+    get_url:
+      url: "{{ helm_latest_release_url }}"
+      dest: /tmp/helm.tar.gz
+      checksum: "{{ helm_latest_release_url_sha256sum }}"
+

@@ -1,22 +1,27 @@
 ---
 - name: Group nodes 
-  import_playbook: playbooks/control.yml
+  import_playbook: playbooks/setup_localhost.yml
   vars:
     site_directory: /home/ansible/k8s 
 
 - name: Bootstrap primary node 
-  import_playbook: playbooks/primary.yml
+  import_playbook: playbooks/setup_primary_node.yml
   vars:
     site_directory: /home/ansible/k8s 
 
+- name: Setup container networking plugin
+  import_playbook: playbooks/deploy_cni_plugin.yml
+  vars:
+    cni_plugin: ""
+
 - name: Setup HA
   when: ha is defined 
-  import_playbook: playbooks/ha.yml
+  import_playbook: playbooks/add_nodes_to_control_plane.yml
   vars:
     site_directory: /home/ansible/k8s 
 
 - name: Setup workers
-  import_playbook: playbooks/worker.yml
+  import_playbook: playbooks/add_worker_nodes.yml
   vars:
     site_directory: /home/ansible/k8s 
 
