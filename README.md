@@ -43,3 +43,9 @@ When VMs are preconfigured (network and SSH)
 |-------------------	|:------:	|:-------:	|-----------------------------------------------	|
 | high_availability 	|  bool  	|  false  	| Join additional nodes to the control plane    	|
 | cni_plugin        	| string 	|         	| Use a different CNI plugin (default is Weave) 	|
+
+## Upcoming (maybe)  
+
+* Break roles/kubernetes into playbooks. Why? Its not really a role, its just playbooks put together into the tasks folder  
+* Automated loadbalancer node configuration  
+* Automated VM provisioning  
