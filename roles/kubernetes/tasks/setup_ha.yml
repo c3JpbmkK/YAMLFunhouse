@@ -1,10 +1,10 @@
 - name: Copy configuration file for kubeadm
   template:
-    src: config.j2
+    src: join_config.j2
     dest: /etc/kubernetes/config.yml
 
 - name: Join cluster 
-  shell: kubeadm join --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" --control-plane --config /etc/kubernetes/config.yml
+  shell: kubeadm join --config /etc/kubernetes/config.yml
 
 - name: Setup kubeconfig
   include_tasks: copy_kubeconfig.yml

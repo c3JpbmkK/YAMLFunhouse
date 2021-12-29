@@ -44,6 +44,7 @@ pip_packages:
 - openshift
 
 api_loadbalancer: lbinternal.example.com
+api_server_endpoint: "{{ api_loadbalancer }}:6443"
 pod_network_cidr: 192.168.0.0/16
 service_network_cidr: 10.96.0.0/12
 

@@ -4,7 +4,7 @@
 
 - name: Copy configuration file for kubeadm
   template:
-    src: config.j2
+    src: init_config.j2
     dest: /etc/kubernetes/config.yml
 
 - name: kubeadm init 

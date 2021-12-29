@@ -26,3 +26,7 @@
   vars:
     site_directory: /home/ansible/k8s 
 
+- name: Approve certificate requests for kubelet
+  import_playbook: playbooks/approve_csrs.yml
+  vars:
+    site_directory: /home/ansible/k8s

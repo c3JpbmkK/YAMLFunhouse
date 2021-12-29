@@ -1,0 +1,11 @@
+---
+- name: Approve CertificateSigningRequest
+  hosts: localhost
+  tasks:
+  - name: Collect list of CSRs
+    shell: kubectl get csr --no-headers | grep -v bootstrap | awk '{print $1}'
+    register: csrs
+
+  - name: Approve each csr 
+    loop: "{{ csrs.stdout_lines }}"
+    command: kubectl certificate approve "{{ item }}"
