@@ -1,6 +1,10 @@
+- name: Copy configuration file for kubeadm
+  template:
+    src: config.j2
+    dest: /etc/kubernetes/config.yml
+
 - name: Join cluster 
-  shell: kubeadm join "{{ api_loadbalancer }}:6443" --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" --control-plane --certificate-key "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['certificate_key'] }}"
-  register: init_output
+  shell: kubeadm join --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" --control-plane --config /etc/kubernetes/config.yml
 
 - name: Setup kubeconfig
   include_tasks: copy_kubeconfig.yml

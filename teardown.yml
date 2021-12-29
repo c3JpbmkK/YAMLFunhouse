@@ -1,22 +1,11 @@
 ---
-- name: Remove containers and disable kubelet
+- name: Teardown cluster
   hosts: allnodes
   tasks:
-  - name: Disable kubelet
-    service:
-      name: kubelet
-      enabled: no
-      state: stopped
-
-  - name: Force remove all containers
-    command: crictl rm -fa 2>/dev/null
-
-  - name: Remove existing kubernetes configuration
+  - name: Reset all nodes using kubeadm
+    command: kubeadm reset --force
+  
+  - name: Delete local facts setup from previous runs if any
     file:
-      path: /etc/kubernetes
-      state: absent
-
-  - name: Remove existing etcd configuration
-    file:
-      path: /var/lib/etcd
+      path: /etc/ansible/facts.d
       state: absent

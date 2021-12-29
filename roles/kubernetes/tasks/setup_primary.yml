@@ -2,8 +2,13 @@
   shell: kubeadm certs certificate-key
   register: certificate_key
 
+- name: Copy configuration file for kubeadm
+  template:
+    src: config.j2
+    dest: /etc/kubernetes/config.yml
+
 - name: kubeadm init 
-  shell: kubeadm init --control-plane-endpoint "{{ api_loadbalancer }}:6443" --upload-certs --pod-network-cidr "{{ pod_network_cidr }}" --service-cidr "{{ service_network_cidr }}" --certificate-key {{ certificate_key.stdout }}
+  shell: kubeadm init --config /etc/kubernetes/config.yml --upload-certs
   register: init_output
 
 - name: Setup kubeconfig
@@ -24,12 +29,8 @@
 
 - name: Get kubeadm bootstrap token secret
   no_log: true
-  vars:
-    jmespath_query: "resources[?starts_with(metadata.name,'bootstrap-token')]"
-  loop: "{{ secrets | to_json | from_json | json_query(jmespath_query) }}"
-  when: 'item.data.description|b64decode == bootstrap_token_description'
-  set_fact: 
-    bootstrap_token: "{{ item['data']['token-id']|b64decode }}.{{ item['data']['token-secret']|b64decode }}" 
+  shell: kubeadm token list | grep "{{ auth_extra_groups }}" | awk '{print $1}'
+  register: bootstrap_token
 
 - name: Get ca cert hash
   register: ca_cert_hash
@@ -50,7 +51,7 @@
   loop:
   - {"key":"certificate_key","value":"{{ certificate_key.stdout }}"}
   - {"key":"ca_cert_hash","value":"{{ ca_cert_hash.stdout }}"}
-  - {"key":"bootstrap_token","value":"{{ bootstrap_token }}"}
+  - {"key":"bootstrap_token","value":"{{ bootstrap_token.stdout }}"}
   ini_file:
     path: /etc/ansible/facts.d/bootstrap.fact
     section: kubernetes

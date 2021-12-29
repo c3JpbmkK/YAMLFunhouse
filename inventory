@@ -1,28 +1,29 @@
-master1
-master2
-master3
+master1.example.com
+master2.example.com
+master3.example.com
 
-worker1
-worker2
-worker3
+worker1.example.com
+worker2.example.com
+worker3.example.com
 
 [allnodes]
-master1
-master2
-master3
-worker1
-worker2
-worker3
+master1.example.com
+master2.example.com
+master3.example.com
+worker1.example.com
+worker2.example.com
+worker3.example.com
 
 [nodes:children]
 control_plane
 worker_plane
 
 [control_plane]
-master1
+master1.example.com
+master2.example.com
 
 [worker_plane]
-worker1
+worker1.example.com
 
 [loadbalancer]
-lb
+lb.example.com
