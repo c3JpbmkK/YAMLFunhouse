@@ -4,6 +4,7 @@
   tasks:
   - name: Reset all nodes using kubeadm
     command: kubeadm reset --force
+    ignore_errors: yes
   
   - name: Delete local facts setup from previous runs if any
     file:
