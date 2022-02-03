@@ -1,4 +1,9 @@
 ---
+- name: Clear repository folder 
+  file:
+    state: absent
+    path: "{{ custom_repo_folder }}"
+
 - name: Setup repository folder
   file:
     state: directory
@@ -6,11 +11,11 @@
 
 - name: Download packages
   loop: "{{ extra_packages }}"
-  dnf:
-    name: "{{ item }}"
-    download_dir: "{{ custom_repo_folder }}"
-    download_only: yes
-    state: present
+  shell: "dnf install --assumeyes --downloadonly --downloaddir {{ custom_repo_folder }} \"{{ item }}\""
+#  dnf:
+#    name: "{{ item }}"
+#    download_dir: "{{ custom_repo_folder }}"
+#    download_only: yes
 
 - name: Install createrepo_c
   dnf:

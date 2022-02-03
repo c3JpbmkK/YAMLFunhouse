@@ -2,7 +2,7 @@
 - name: Setup repositories on nodes
   hosts: all
   become: yes
-  gather_facts: yes
+  gather_facts: yes 
 
   collections:
   - ansible.posix

@@ -21,6 +21,7 @@ worker_plane
 
 [control_plane]
 master1.example.com
+master3.example.com
 
 [worker_plane]
 worker1.example.com

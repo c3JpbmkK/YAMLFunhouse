@@ -43,6 +43,8 @@ When VMs are preconfigured (network and SSH)
 |-------------------	|:------:	|:-------:	|-----------------------------------------------	|
 | high_availability 	|  bool  	|  false  	| Join additional nodes to the control plane    	|
 | cni_plugin        	| string 	|         	| Use a different CNI plugin (default is Weave) 	|
+| install_falco         |  bool         |  false        | Install necessary packages and modules for running Falco daemonsets 	|
+
 
 ## Upcoming (maybe)  
 
