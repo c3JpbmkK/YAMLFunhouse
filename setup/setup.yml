@@ -2,9 +2,9 @@
 - name: Setup vsftpd on control
   import_playbook: playbooks/setup-localhost.yml
   vars:
-    site_directory: "{{ playbook_dir }}"
+    site_directory: /home/ansible/k8s/setup
 
 - name: Setup repositories on nodes
   import_playbook: playbooks/setup-managed-nodes.yml
   vars:
-    site_directory: "{{ playbook_dir }}"
+    site_directory: /home/ansible/k8s/setup
