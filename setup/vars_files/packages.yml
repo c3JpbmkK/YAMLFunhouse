@@ -1,4 +1,4 @@
-custom_repo_folder: /var/ftp/repo/Custom
+custom_repo_folder: /var/ftp/custom
 
 extra_packages:
 - dkms

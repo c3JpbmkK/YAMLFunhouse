@@ -46,7 +46,7 @@
     yum_repository:
       name: Dynorepo
       description: Repo containing specific packages downloaded using dnf
-      baseurl: ftp://control.example.com/repo/Custom/
+      baseurl: ftp://control.example.com/custom/
       gpgcheck: no
       enabled: yes
 
