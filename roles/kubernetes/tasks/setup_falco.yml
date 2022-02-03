@@ -1,0 +1,32 @@
+- name: Setup Falco repo
+  yum_repository:
+    baseurl: "{{ falco.falco_repo_url }}"
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: "{{ falco.falco_gpg_key }}"
+    name: Falcosecurity
+    description: Falcosecurity repo
+
+- name: Clean dnf metadata 
+  shell: dnf clean all
+
+- name: Install Falco requirements
+  dnf:
+    name:
+    - dkms
+    - "kernel-devel-{{ ansible_facts['kernel'] }}"
+    state: present
+    allow_downgrade: yes
+
+- name: Remove previously installed Falco
+  ignore_errors: yes
+  dnf:
+    name: falco
+    state: absent
+    update_cache: yes
+
+- name: Install Falco
+  dnf:
+    name: falco
+    state: present
+    update_cache: yes
