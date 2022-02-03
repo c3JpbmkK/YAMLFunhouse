@@ -1,0 +1,6 @@
+custom_repo_folder: /var/ftp/repo/Custom
+
+extra_packages:
+- dkms
+- make
+- "@Development tools"

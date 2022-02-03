@@ -1,0 +1,55 @@
+---
+- name: Setup repositories on nodes
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  collections:
+  - ansible.posix
+  - ansible.builtin
+  - community.general
+
+  tasks:
+  - name: Copy hosts file
+    tags: hosts
+    copy:
+      src: /etc/hosts
+      dest: /etc/hosts
+
+  - name: Setup hostname
+    tags: hostname
+    shell: hostnamectl set-hostname {{ inventory_hostname }}
+
+  - name: Create AppStream repository
+    yum_repository:
+      name: AppStream
+      description: AppStream repository on ftp://control.example.com
+      baseurl: ftp://control.example.com/repo/AppStream/
+      enabled: yes
+      gpgcheck: yes
+      gpgkey: 
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+
+  - name: Create BaseOS repository
+    yum_repository:
+      name: BaseOS
+      description: BaseOS repository on ftp://control.example.com
+      baseurl: ftp://control.example.com/repo/BaseOS/
+      enabled: yes
+      gpgcheck: yes
+      gpgkey: 
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+
+  - name: Create Dyno repository
+    yum_repository:
+      name: Dynorepo
+      description: Repo containing specific packages downloaded using dnf
+      baseurl: ftp://control.example.com/repo/Custom/
+      gpgcheck: no
+      enabled: yes
+
+  - name: Configure correct timezone
+    timezone:
+      name: Europe/Berlin

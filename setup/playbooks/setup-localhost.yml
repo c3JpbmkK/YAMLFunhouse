@@ -1,0 +1,64 @@
+---
+- name: Setup vsftpd on control
+  hosts: localhost
+  become: yes
+
+  collections:
+  - ansible.posix
+  - ansible.builtin
+  - community.general
+
+  vars_files:
+  - "{{ site_directory }}/vars_files/packages.yml"
+
+  tasks:
+  - name: Install vsftpd
+    dnf:
+      name: vsftpd
+      state: present
+
+  - name: Mount cdrom
+    mount:
+      src: /dev/sr0
+      path: /var/ftp/repo
+      fstype: iso9660
+      state: mounted
+
+  - name: Setup dynamic repo
+    include_tasks: dynamic-repo.yml
+
+  - name: Disable SELinux
+    selinux:
+      policy: targeted
+      state: permissive
+  
+  - name: Setup anonymous access to vsftpd
+    lineinfile:
+      regex: anonymous_enable.*
+      line: anonymous_enable=YES
+      path: /etc/vsftpd/vsftpd.conf
+
+  - name: Restart vsftpd
+    service:
+      name: vsftpd
+      state: restarted
+      enabled: yes
+  
+  - name: Enable firewalld service
+    service:
+      name: firewalld
+      enabled: yes
+      state: restarted
+
+  - name: Enable ftp firewalld service
+    firewalld:
+      service: ftp
+      state: enabled
+      immediate: yes
+      permanent: yes
+
+  - name: Restart firewalld
+    service:
+      name: firewalld
+      state: restarted
+      enabled: yes

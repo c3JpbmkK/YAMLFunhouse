@@ -1,0 +1,21 @@
+---
+- name: Setup repository folder
+  file:
+    state: directory
+    path: "{{ custom_repo_folder }}"
+
+- name: Download packages
+  loop: "{{ extra_packages }}"
+  dnf:
+    name: "{{ item }}"
+    download_dir: "{{ custom_repo_folder }}"
+    download_only: yes
+    state: present
+
+- name: Install createrepo_c
+  dnf:
+    name: createrepo_c
+    state: present
+
+- name: Create repository from folder
+  shell: createrepo {{ custom_repo_folder }}
