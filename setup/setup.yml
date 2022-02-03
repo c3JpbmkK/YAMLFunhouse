@@ -35,6 +35,12 @@
       name: vsftpd
       state: restarted
       enabled: yes
+  
+  - name: Enable firewalld service
+    service:
+      name: firewalld
+      enabled: yes
+      state: restarted
 
   - name: Enable ftp firewalld service
     firewalld:

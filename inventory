@@ -13,6 +13,7 @@ master3.example.com
 worker1.example.com
 worker2.example.com
 worker3.example.com
+lb.example.com
 
 [nodes:children]
 control_plane
@@ -20,7 +21,6 @@ worker_plane
 
 [control_plane]
 master1.example.com
-master2.example.com
 
 [worker_plane]
 worker1.example.com
