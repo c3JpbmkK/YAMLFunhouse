@@ -1,6 +1,6 @@
 ---
 - name: Teardown cluster
-  hosts: allnodes
+  hosts: all
   tasks:
   - name: Reset all nodes using kubeadm
     command: kubeadm reset --force
