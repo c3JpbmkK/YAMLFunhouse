@@ -1,0 +1,21 @@
+---
+- name: Configure kubernetes repo
+  yum_repository:
+    name: "{{ kubernetes_repo.name }}"
+    description: "{{ kubernetes_repo.description }}"
+    baseurl: "{{ kubernetes_repo.baseurl }}"
+    enabled: "{{ kubernetes_repo.enabled }}"
+    gpgcheck: "{{ kubernetes_repo.gpgcheck }}"
+    gpgkey: "{{ kubernetes_repo.gpgkey }}"
+    exclude: "{{ kubernetes_repo.excludes }}"
+
+- name: Install packages
+  dnf:
+    name: "{{ kubernetes_packages }}"
+    disable_excludes: Kubernetes
+    state: present
+
+- name: Install python modules
+  pip:
+    name: "{{ python_modules }}"
+    state: present

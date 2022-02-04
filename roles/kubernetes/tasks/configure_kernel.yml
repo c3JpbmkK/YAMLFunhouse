@@ -1,0 +1,22 @@
+---
+- name: Touch kernel modules file
+  file:
+    state: touch
+    path: /etc/modules-load.d/90-k8s.conf
+
+- name: Add kernel modules to load
+  loop: "{{ kernel_modules }}"
+  lineinfile:
+    line: "{{ item }}"
+    path: /etc/modules-load.d/90-k8s.conf
+
+- name: Touch kernel parameters file
+  file:
+    path: /etc/sysctl.d/90-k8s.conf
+    state: touch
+
+- name: Add kernel parameters to load
+  loop: "{{ kernel_parameters }}"
+  lineinfile:
+    line: "{{ item.key }}={{ item.value }}"
+    path: /etc/sysctl.d/90-k8s.conf

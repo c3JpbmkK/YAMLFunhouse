@@ -1,8 +1,10 @@
 ---
-# defaults file for roles/master_node
-loadable_modules:
-- br_netfilter
+# Swap 
+swap: no 
 
+# Kernel parameters
+kernel_modules:
+- br_netfilter
 kernel_parameters:
 - key: net.ipv4.ip_forward
   value: 1
@@ -11,9 +13,8 @@ kernel_parameters:
 - key: net.bridge.bridge-nf-call-iptables
   value: 1
 
-swap: no 
 
-basearch: x86_64
+# Kubernetes setup parameters
 kubernetes_repo:
   name: Kubernetes 
   description: Kubernetes
@@ -27,21 +28,22 @@ kubernetes_repo:
   - kubelet
   - kubeadm
   - kubectl
-
-k8s_cluster_name: workstation 
-k8s_cluster_version: v1.23.1
-k8s_version: 1.23.1-0
-k8s_packages:
-- kubeadm-{{ k8s_version }}
-- kubectl-{{ k8s_version }}
-- kubelet-{{ k8s_version }}
+kubernetes_version: 1.23.1-0
+kubernetes_packages:
+- kubeadm-{{ kubernetes_version }}
+- kubectl-{{ kubernetes_version }}
+- kubelet-{{ kubernetes_version }}
 - iproute-tc
 - jq
 - python3
 - python3-pip
-
-pip_packages:
+python_modules:
 - openshift
+
+# Cluster parameters
+kubernetes_cluster_name: workstation 
+kubernetes_cluster_version: v1.23.1
+
 
 api_loadbalancer: lbinternal.example.com
 api_server_endpoint: "{{ api_loadbalancer }}:6443"

@@ -1,76 +1,33 @@
 ---
-- name: Disable swap
+- name: Configure Swap
   when: swap == false
-  include_tasks: swap_off.yml
+  include_tasks: configure_swap.yml
 
-- name: Setup Falco
+- name: Configure Kernel
+  include_tasks: configure_kernel.yml
+
+- name: Configure Falco
   when: "install_falco == 'true'"
-  include_tasks: setup_falco.yml
+  include_tasks: configure_falco.yml
 
-- name: Touch kernel modules file
-  file:
-    state: touch
-    path: /etc/modules-load.d/90-k8s.conf
+- name: Configure SELinux
+  when: "ansible_facts['os_family'] == 'RedHat'"
+  include_tasks: configure_selinux.yml
 
-- name: Add kernel modules to load
-  loop: "{{ loadable_modules }}"
-  lineinfile:
-    line: "{{ item }}"
-    path: /etc/modules-load.d/90-k8s.conf
-
-- name: Touch kernel parameters file
-  file:
-    path: /etc/sysctl.d/90-k8s.conf
-    state: touch
-
-- name: Add kernel parameters to load
-  loop: "{{ kernel_parameters }}"
-  lineinfile:
-    line: "{{ item.key }}={{ item.value }}"
-    path: /etc/sysctl.d/90-k8s.conf
-  
-- name: Load kernel parameters
-  command: sysctl --system
-
-- name: Disable SELinux
-  selinux:
-    policy: targeted
-    state: permissive
-
-- name: Disable Firewalld
-  service:
-    name: firewalld
-    enabled: no
-    state: stopped
-
-- name: Setup kubernetes repo
-  yum_repository:
-    name: "{{ kubernetes_repo.name }}"
-    description: "{{ kubernetes_repo.description }}"
-    baseurl: "{{ kubernetes_repo.baseurl }}"
-    enabled: "{{ kubernetes_repo.enabled }}"
-    gpgcheck: "{{ kubernetes_repo.gpgcheck }}"
-    gpgkey: "{{ kubernetes_repo.gpgkey }}"
-    exclude: "{{ kubernetes_repo.excludes }}"
+- name: Configure Services
+  include_tasks: configure_services.yml
 
 - name: Install packages
-  dnf:
-    disable_excludes: Kubernetes
-    name: "{{ k8s_packages }}"
+  include_tasks: install_packages.yml
 
-- name: Install python modules
-  pip:
-    name: openshift
-    state: present
-
-- name: Reboot nodes
+- name: Reboot node
   reboot:
    test_command: uptime
 
-- name: Setup control plane nodes
+- name: Configure control plane nodes
   when: '"control_plane" in group_names'
   include_tasks: control_plane.yml
 
-- name: Setup worker plane nodes
+- name: Configure worker plane nodes
   when: '"worker_plane" in group_names'
   include_tasks: worker_plane.yml

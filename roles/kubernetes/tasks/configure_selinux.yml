@@ -1,0 +1,9 @@
+---
+- name: Disable SELinux
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Reboot node
+  reboot:
+    test_command: uptime
