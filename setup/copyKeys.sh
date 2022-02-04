@@ -5,6 +5,8 @@ then
 	ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -C "ansible@control.example.com" -P ""
 fi
 
+pkill ssh-agent || echo "No ssh-agent processes running"
+echo "Starting new ssh-agent"
 eval $(ssh-agent)
 ssh-add
 
