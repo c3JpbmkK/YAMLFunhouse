@@ -1,8 +1,8 @@
 ---
 - name: Disable SELinux
   selinux:
-    policy: targeted
-    state: permissive
+    policy: "{{ selinux.policy }}"
+    state: "{{ selinux.state }}"
 
 - name: Reboot node
   reboot:

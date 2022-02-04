@@ -2,6 +2,11 @@
 # Swap 
 swap: no 
 
+# SELinux parameters (primarily for RedHat family of distros)
+selinux: 
+  state: permissive
+  policy: targeted
+
 # Kernel parameters
 kernel_modules:
 - br_netfilter

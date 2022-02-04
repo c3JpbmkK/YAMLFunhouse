@@ -26,11 +26,6 @@
 
   - name: Setup dynamic repo
     include_tasks: dynamic-repo.yml
-
-  - name: Disable SELinux
-    selinux:
-      policy: targeted
-      state: permissive
   
   - name: Setup anonymous access to vsftpd
     lineinfile:
@@ -44,7 +39,7 @@
       state: restarted
       enabled: yes
   
-  - name: Enable firewalld service
+  - name: Ensure firewalld is enabled
     service:
       name: firewalld
       enabled: yes
@@ -57,8 +52,7 @@
       immediate: yes
       permanent: yes
 
-  - name: Restart firewalld
-    service:
-      name: firewalld
-      state: restarted
-      enabled: yes
+  - name: Set SELinux permissive
+    selinux:
+      policy: targeted
+      state: permissive
