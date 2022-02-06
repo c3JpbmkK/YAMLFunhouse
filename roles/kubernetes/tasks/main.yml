@@ -36,4 +36,4 @@
 
 - name: Join node to the cluster 
   when: '"worker_nodes" in group_names'
-  include_tasks: join_cluster.yml 
+  include_tasks: join_worker_plane.yml_
