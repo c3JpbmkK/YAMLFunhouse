@@ -39,4 +39,3 @@
   include_tasks: subtasks/symlink_kubeconfig.yml
   vars:
     config_file_name: admin.conf
-

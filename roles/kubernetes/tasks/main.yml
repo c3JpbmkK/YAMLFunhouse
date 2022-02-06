@@ -24,16 +24,16 @@
 
 - name: Start the cluster 
   when: |
-    ("control_plane" in group_names) and
-    (primary == true)
+    ( "control_plane" in group_names ) and
+    ( primary == true )
   include_tasks: init_control_plane.yml
 
 - name: Join node to the control-plane
   when: |
-    ("control_plane" in group_names) and
-    (primary == false)
+    ( "control_plane" in group_names ) and
+    ( primary == false )
   include_tasks: join_control_plane.yml
 
 - name: Join node to the cluster 
   when: '"worker_nodes" in group_names'
-  include_tasks: join_worker_plane.yml_
+  include_tasks: join_worker_plane.yml
