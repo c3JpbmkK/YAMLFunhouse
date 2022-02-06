@@ -1,7 +1,6 @@
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: JoinConfiguration
-
 controlPlane:
   certificateKey: {{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['certificate_key'] }}
 discovery:
