@@ -29,10 +29,6 @@
     state: absent
     path: "{{ kubeadm_config_files_dir }}"
 
-- name: kubeadm init 
-  shell: kubeadm init --config "{{ kubeadm_config_file }}" --upload-certs
-  register: init_output
-
 - name: Join cluster 
   shell: kubeadm join --config "{{ kubeadm_config_file }}"
 

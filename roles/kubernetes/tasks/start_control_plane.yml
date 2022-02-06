@@ -14,11 +14,11 @@
     name: kubelet
     state: restarted
 
-- name: Setup primary node
+- name: Run kubeadm init
   when: primary == true
-  include_tasks: setup_primary.yml
+  include_tasks: init_control_plane.yml
 
-- name: Setup ha nodes
+- name: Run kubeadmin join --control-plane
   when: primary == false
-  include_tasks: setup_ha.yml
+  include_tasks: join_control_plane.yml
 

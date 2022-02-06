@@ -28,7 +28,7 @@
 
 - name: Configure control plane nodes
   when: '"control_plane" in group_names'
-  include_tasks: control_plane.yml
+  include_tasks: start_control_plane.yml
 
 - name: Configure worker plane nodes
   when: '"worker_plane" in group_names'
