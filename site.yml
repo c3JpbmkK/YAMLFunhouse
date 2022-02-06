@@ -5,7 +5,7 @@
     site_directory: /home/ansible/kubernetes
 
 - name: Bootstrap primary node 
-  import_playbook: playbooks/setup_primary_node.yml
+  import_playbook: playbooks/init.yml
   vars:
     site_directory: /home/ansible/kubernetes
 
@@ -15,14 +15,15 @@
     cni_plugin: ""
 
 - name: Setup HA
-  when: high_availability | bool 
-  import_playbook: playbooks/add_nodes_to_control_plane.yml
+  when: |
+    ( high_availability is defined ) and
+    ( high_availability == 'true' )
+  import_playbook: playbooks/join_control_plane.yml
   vars:
-    high_availability: false 
     site_directory: /home/ansible/kubernetes
 
 - name: Setup workers
-  import_playbook: playbooks/add_worker_nodes.yml
+  import_playbook: playbooks/join.yml
   vars:
     site_directory: /home/ansible/kubernetes
 
