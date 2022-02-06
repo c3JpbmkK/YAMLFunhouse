@@ -33,12 +33,15 @@
     state: absent
     path: "{{ kubeadm_config_files_dir }}"
 
+- name: Reset before init
+  shell: kubeadm reset --force
+
 - name: kubeadm init 
   shell: kubeadm init --config "{{ kubeadm_config_file }}" --upload-certs
   register: init_output
 
-- name: Setup kubeconfig
-  include_tasks: copy_kubeconfig.yml
+- name: Symlink kubeconfig
+  include_tasks: symlink_kubeconfig.yml
   vars:
     config_file_name: admin.conf
 

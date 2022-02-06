@@ -18,7 +18,6 @@
 - name: Install supplementary packages
   dnf:
     name: "{{ supplementary_packages }}"
-    disable_excludes: Kubernetes
     state: present
 
 - name: Install python modules
@@ -32,3 +31,6 @@
     state: restarted
     enabled: yes
 
+- name: Reboot node
+  reboot:
+   test_command: uptime
