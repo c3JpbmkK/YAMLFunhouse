@@ -6,14 +6,14 @@
   - name: Select a random node in the control_plane group to bootstrap
     add_host:
       hostname: "{{ vars['groups']['control_plane'] | random }}"
-      groups: initnode
+      groups: init_node
 
   - name: Group remaining nodes
     loop: "{{ vars['groups']['control_plane']}}"
     when: 'item not in vars["groups"]["initnode"]'
     add_host:
       hostname: "{{ item }}"
-      groups: hagroup
+      groups: join_nodes
 
   - name: Make local facts directory
     file:

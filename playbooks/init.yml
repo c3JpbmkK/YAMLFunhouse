@@ -1,5 +1,5 @@
 - name: Bootstrap primary node
-  hosts: initnode 
+  hosts: init_node 
   vars:
     primary: yes
   roles:

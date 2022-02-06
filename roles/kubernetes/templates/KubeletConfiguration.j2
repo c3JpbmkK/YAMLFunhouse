@@ -3,7 +3,7 @@ apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 rotateCertificates: false
 serverTLSBootstrap: true
-protectKernelDefaults: false
+protectKernelDefaults: true
 eventRecordQPS: 0
 tlsCipherSuites:
 - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256

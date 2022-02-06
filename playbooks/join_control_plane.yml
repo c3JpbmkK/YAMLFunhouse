@@ -1,5 +1,5 @@
 - name: Setup HA 
-  hosts: hagroup 
+  hosts: join_nodes 
   gather_facts: no
   vars:
     primary: no
