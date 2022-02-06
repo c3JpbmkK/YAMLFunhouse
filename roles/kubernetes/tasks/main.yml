@@ -7,7 +7,9 @@
   include_tasks: configure_kernel.yml
 
 - name: Configure Falco
-  when: "enable_falco == 'true'"
+  when: |
+    (enable_falco is defined) &&
+    (enable_falco == 'true')
   include_tasks: configure_falco.yml
 
 - name: Configure SELinux
