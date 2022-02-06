@@ -11,7 +11,7 @@
   loop: "{{ kubeadm_init_node_config_files }}"
   template:
     src: "{{ item }}.j2"
-    dest: "{{ item }}.yml"
+    dest: "{{ kubeadm_config_files_dir }}/{{ item }}.yml"
 
 - name: Create kubeadm config file
   loop: "{{ kubeadm_init_node_config_files }}"

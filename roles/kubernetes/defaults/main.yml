@@ -38,6 +38,7 @@ kubernetes_packages:
 - kubeadm-{{ kubernetes_version }}
 - kubectl-{{ kubernetes_version }}
 - kubelet-{{ kubernetes_version }}
+supplementary_packages:
 - iproute-tc
 - jq
 - python3
@@ -49,9 +50,9 @@ python_modules:
 kubeadm_config_files_dir: /tmp/kubeadmConfigFiles
 kubeadm_config_file: /etc/kubernetes/config.yml
 kubeadm_init_node_config_files:
-  - InitConfiguration
-  - KubeletConfiguration
-  - ClusterConfiguration
+- InitConfiguration
+- KubeletConfiguration
+- ClusterConfiguration
 kubeadm_join_node_config_files:
 - JoinConfiguration
 - KubeletConfiguration

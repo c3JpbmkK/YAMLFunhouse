@@ -9,9 +9,15 @@
     gpgkey: "{{ kubernetes_repo.gpgkey }}"
     exclude: "{{ kubernetes_repo.excludes }}"
 
-- name: Install packages
+- name: Install kubernetes packages
   dnf:
     name: "{{ kubernetes_packages }}"
+    disable_excludes: Kubernetes
+    state: present
+
+- name: Install supplementary packages
+  dnf:
+    name: "{{ supplementary_packages }}"
     disable_excludes: Kubernetes
     state: present
 
