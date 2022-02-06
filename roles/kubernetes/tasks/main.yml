@@ -8,7 +8,7 @@
 
 - name: Configure Falco
   when: |
-    (enable_falco is defined) &&
+    (enable_falco is defined) AND
     (enable_falco == 'true')
   include_tasks: configure_falco.yml
 
