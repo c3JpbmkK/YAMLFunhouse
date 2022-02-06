@@ -14,6 +14,7 @@
     dest: "{{ item }}.yml"
 
 - name: Create kubeadm config file
+  loop: "{{ kubeadm_init_node_config_files }}"
   shell: "cat {{ kubeadm_temp_config_files_location }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
 
 - name: Remove temp directory
