@@ -27,7 +27,7 @@ kernel_parameters:
 kubernetes_repo:
   name: Kubernetes 
   description: Kubernetes
-  baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-{{ ansible_facts['architecture']}}
+  baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-{{ ansible_facts['architecture'] }}
   enabled: yes
   gpgcheck: yes
   gpgkey: 
