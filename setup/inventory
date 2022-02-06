@@ -1,9 +1,7 @@
-master1
-master2
-master3
-
-worker1
-worker2
-worker3
-
-lb
+master1.example.com
+master2.example.com
+master3.example.com
+worker1.example.com
+worker2.example.com
+worker3.example.com
+lb.example.com
