@@ -1,7 +1,7 @@
 - name: Setup temp files directory
   file:
     state: directory
-    path: "{{ kubeadm_temp_config_files_location }}"
+    path: "{{ kubeadm_config_files_dir }}"
 
 - name: Copy config files for init-node
   loop: "{{ kubeadm_join_node_config_files }}"
@@ -11,12 +11,12 @@
 
 - name: Create kubeadm config file
   loop: "{{ kubeadm_join_node_config_files }}"
-  shell: "cat {{ kubeadm_temp_config_files_location }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
+  shell: "cat {{ kubeadm_config_files_dir }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
 
 - name: Remove temp directory
   file:
     state: absent
-    path: "{{ kubeadm_temp_config_files_location }}"
+    path: "{{ kubeadm_config_files_dir }}"
 
 - name: kubeadm init 
   shell: kubeadm init --config "{{ kubeadm_config_file }}" --upload-certs

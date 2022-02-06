@@ -46,7 +46,7 @@ python_modules:
 - openshift
 
 # Kubeadm parameters
-kubeadm_temp_config_files_location: /tmp/kubeadmConfigFiles/
+kubeadm_config_files_dir: /tmp/kubeadmConfigFiles
 kubeadm_config_file: /etc/kubernetes/config.yml
 kubeadm_init_node_config_files:
   - InitConfiguration
