@@ -20,10 +20,12 @@ control_plane
 worker_nodes
 
 [control_plane]
+master1.example.com
 master2.example.com
+master3.example.com
 
 [worker_nodes]
-worker3.example.com
+worker1.example.com
 
 [loadbalancer]
 lb.example.com
