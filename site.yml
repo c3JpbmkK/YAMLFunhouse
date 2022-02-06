@@ -22,6 +22,12 @@
   vars:
     site_directory: /home/ansible/kubernetes
 
+- name: Enable audit on kube-apiserver
+  when: |
+    ( enable_audit is defined ) and
+    ( enable_audit == 'true' )
+  import_playbook: playbooks/reconfigure_audit_settings.yml
+
 - name: Join workers to the cluster
   import_playbook: playbooks/join.yml
   vars:

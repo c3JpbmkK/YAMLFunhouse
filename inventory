@@ -1,15 +1,6 @@
 master1.example.com
 master2.example.com
 master3.example.com
-
-worker1.example.com
-worker2.example.com
-worker3.example.com
-
-[allnodes]
-master1.example.com
-master2.example.com
-master3.example.com
 worker1.example.com
 worker2.example.com
 worker3.example.com
@@ -19,6 +10,9 @@ lb.example.com
 control_plane
 worker_nodes
 
+[loadbalancer]
+lb.example.com
+
 [control_plane]
 master1.example.com
 master2.example.com
@@ -26,6 +20,3 @@ master3.example.com
 
 [worker_nodes]
 worker1.example.com
-
-[loadbalancer]
-lb.example.com
