@@ -25,7 +25,7 @@
 - name: Start the cluster 
   when: |
     ("control_plane" in group_names) and
-    (primary == false)
+    (primary == true)
   include_tasks: init_control_plane.yml
 
 - name: Join node to the control-plane

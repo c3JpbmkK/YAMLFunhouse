@@ -36,7 +36,7 @@
   shell: kubeadm join --config "{{ kubeadm_config_file }}"
 
 - name: Symlink kubeconfig
-  include_tasks: symlink_kubeconfig.yml
+  include_tasks: subtasks/symlink_kubeconfig.yml
   vars:
     config_file_name: admin.conf
 
