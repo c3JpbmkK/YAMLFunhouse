@@ -1,3 +1,4 @@
+---
 - name: Turn off swap
   command: swapoff -a
 

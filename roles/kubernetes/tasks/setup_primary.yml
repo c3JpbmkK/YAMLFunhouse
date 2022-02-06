@@ -1,3 +1,4 @@
+---
 - name: Generate certificate key
   shell: kubeadm certs certificate-key
   register: certificate_key
@@ -12,6 +13,16 @@
   template:
     src: "{{ item }}.j2"
     dest: "{{ kubeadm_config_files_dir }}/{{ item }}.yml"
+
+- name: Remove exising config file
+  file:
+    state: absent
+    path: "{{ kubeadm_config_file }}"
+
+- name: Touch config file
+  file:
+    state: touch
+    path: "{{ kubeadm_config_file }}"
 
 - name: Create kubeadm config file
   loop: "{{ kubeadm_init_node_config_files }}"

@@ -1,3 +1,4 @@
+---
 - name: Join cluster 
   shell: kubeadm join "{{ api_loadbalancer }}:6443" --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" 
   register: init_output

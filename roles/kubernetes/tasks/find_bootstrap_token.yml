@@ -1,3 +1,4 @@
+---
 - name: Get list of secrets
   register: secrets
   k8s_info:

@@ -1,5 +1,4 @@
 ---
-
 - name: Enable kubelet 
   service:
     name: kubelet

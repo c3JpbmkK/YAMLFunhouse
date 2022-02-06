@@ -1,3 +1,4 @@
+---
 - name: Setup Falco repo
   yum_repository:
     baseurl: "{{ falco.falco_repo_url }}"
