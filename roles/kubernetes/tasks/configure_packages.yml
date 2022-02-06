@@ -25,3 +25,10 @@
   pip:
     name: "{{ python_modules }}"
     state: present
+
+- name: Restart kubelet
+  service:
+    name: kubelet
+    state: restarted
+    enabled: yes
+

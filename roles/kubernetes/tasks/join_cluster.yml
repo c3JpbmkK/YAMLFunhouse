@@ -1,0 +1,16 @@
+---
+- name: Reset before init
+  shell: kubeadm reset --force
+
+- name: Join cluster 
+  shell: |
+    kubeadm join "{{ api_loadbalancer }}:6443" \
+    --token "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}" \
+    --discovery-token-ca-cert-hash "{{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}" 
+  register: init_output
+
+- name: Setup kubeconfig
+  include_tasks: subtasks/copy_kubeconfig.yml
+  vars:
+    config_file_name: kubelet.conf 
+

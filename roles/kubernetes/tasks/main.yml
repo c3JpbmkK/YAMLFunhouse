@@ -26,10 +26,10 @@
   reboot:
    test_command: uptime
 
-- name: Configure control plane nodes
+- name: Start the cluster 
   when: '"control_plane" in group_names'
-  include_tasks: start_control_plane.yml
+  include_tasks: start_cluster.yml
 
-- name: Configure worker plane nodes
+- name: Join node to the cluster 
   when: '"worker_nodes" in group_names'
-  include_tasks: worker_nodes.yml
+  include_tasks: join_cluster.yml 

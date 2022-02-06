@@ -14,7 +14,7 @@
   vars:
     cni_plugin: ""
 
-- name: Setup HA
+- name: Join additional nodes to the control-plane 
   when: |
     ( high_availability is defined ) and
     ( high_availability == 'true' )
@@ -22,7 +22,7 @@
   vars:
     site_directory: /home/ansible/kubernetes
 
-- name: Setup workers
+- name: Join workers to the cluster
   import_playbook: playbooks/join.yml
   vars:
     site_directory: /home/ansible/kubernetes

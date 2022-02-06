@@ -1,24 +1,17 @@
 ---
-- name: Enable kubelet 
-  service:
-    name: kubelet
-    state: restarted
-    enabled: yes
-
 - name: Reset before init
-  tags: reset
   shell: kubeadm reset --force
 
 - name: Restart kubelet
   service:
     name: kubelet
     state: restarted
+    enabled: yes
 
 - name: Run kubeadm init
   when: primary == true
-  include_tasks: init_control_plane.yml
+  include_tasks: subtasks/init_control_plane.yml
 
 - name: Run kubeadmin join --control-plane
   when: primary == false
-  include_tasks: join_control_plane.yml
-
+  include_tasks: subtasks/join_control_plane.yml

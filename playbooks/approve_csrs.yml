@@ -3,7 +3,7 @@
   hosts: localhost
   tasks:
   - name: Collect list of CSRs
-    shell: kubectl get csr --no-headers | grep -v bootstrap | awk '{print $1}'
+    shell: kubectl get csr -o name
     register: csrs
 
   - name: Approve each csr 
