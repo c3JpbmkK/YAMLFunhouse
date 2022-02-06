@@ -1,4 +1,4 @@
-- name: Setup HA 
+- name: Join nodes to the control-plane
   hosts: join_nodes 
   gather_facts: no
   vars:

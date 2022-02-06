@@ -31,5 +31,5 @@
   include_tasks: start_control_plane.yml
 
 - name: Configure worker plane nodes
-  when: '"worker_plane" in group_names'
-  include_tasks: worker_plane.yml
+  when: '"worker_nodes" in group_names'
+  include_tasks: worker_nodes.yml

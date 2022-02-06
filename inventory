@@ -17,12 +17,12 @@ lb.example.com
 
 [nodes:children]
 control_plane
-worker_plane
+worker_nodes
 
 [control_plane]
 master2.example.com
 
-[worker_plane]
+[worker_nodes]
 worker3.example.com
 
 [loadbalancer]
