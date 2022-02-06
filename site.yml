@@ -2,12 +2,12 @@
 - name: Group nodes 
   import_playbook: playbooks/setup_localhost.yml
   vars:
-    site_directory: /home/ansible/k8s 
+    site_directory: /home/ansible/kubernetes
 
 - name: Bootstrap primary node 
   import_playbook: playbooks/setup_primary_node.yml
   vars:
-    site_directory: /home/ansible/k8s 
+    site_directory: /home/ansible/kubernetes
 
 - name: Setup container networking plugin
   import_playbook: playbooks/deploy_cni_plugin.yml
@@ -19,12 +19,12 @@
   import_playbook: playbooks/add_nodes_to_control_plane.yml
   vars:
     high_availability: false 
-    site_directory: /home/ansible/k8s 
+    site_directory: /home/ansible/kubernetes
 
 - name: Setup workers
   import_playbook: playbooks/add_worker_nodes.yml
   vars:
-    site_directory: /home/ansible/k8s 
+    site_directory: /home/ansible/kubernetes
 
 - name: Approve certificate requests for kubelet
   import_playbook: playbooks/approve_csrs.yml
