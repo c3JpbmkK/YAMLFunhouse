@@ -45,6 +45,17 @@ kubernetes_packages:
 python_modules:
 - openshift
 
+# Kubeadm parameters
+kubeadm_temp_config_files_location: /tmp/kubeadmConfigFiles/
+kubeadm_config_file: /etc/kubernetes/config.yml
+kubeadm_init_node_config_files:
+  - InitConfiguration
+  - KubeletConfiguration
+  - ClusterConfiguration
+kubeadm_join_node_config_files:
+- JoinConfiguration
+- KubeletConfiguration
+
 # Cluster parameters
 kubernetes_cluster_name: workstation 
 kubernetes_cluster_version: v1.23.1

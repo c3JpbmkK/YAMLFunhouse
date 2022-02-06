@@ -1,15 +1,29 @@
-- name: Create config.yml file for additional-node
-  loop:
-  - JoinConfiguration.j2
-  - KubeletConfiguration.j2
-  blockinfile:
-    path:  /etc/kubernetes/config.yml
-    marker_begin: "---"
-    marker_end: "\n"
-    block: "{{ lookup('file','{{ item }}') }}"
+- name: Setup temp files directory
+  file:
+    state: directory
+    path: "{{ kubeadm_temp_config_files_location }}"
+
+- name: Copy config files for init-node
+  loop: "{{ kubeadm_join_node_config_files }}"
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ item }}.yml"
+
+- name: Create kubeadm config file
+  loop: "{{ kubeadm_join_node_config_files }}"
+  shell: "cat {{ kubeadm_temp_config_files_location }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
+
+- name: Remove temp directory
+  file:
+    state: absent
+    path: "{{ kubeadm_temp_config_files_location }}"
+
+- name: kubeadm init 
+  shell: kubeadm init --config "{{ kubeadm_config_file }}" --upload-certs
+  register: init_output
 
 - name: Join cluster 
-  shell: kubeadm join --config /etc/kubernetes/config.yml
+  shell: kubeadm join --config "{{ kubeadm_config_file }}"
 
 - name: Setup kubeconfig
   include_tasks: copy_kubeconfig.yml

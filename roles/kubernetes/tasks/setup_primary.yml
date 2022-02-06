@@ -2,19 +2,27 @@
   shell: kubeadm certs certificate-key
   register: certificate_key
 
-- name: Create config.yml file for init-node
-  loop:
-  - InitConfiguration.j2
-  - KubeletConfiguration.j2
-  - ClusterConfiguration.j2
-  blockinfile:
-    path:  /etc/kubernetes/config.yml
-    marker_begin: "---"
-    marker_end: "\n"
-    block: "{{ lookup('file','{{ item }}') }}"
+- name: Setup temp files directory
+  file:
+    state: directory
+    path: "{{ kubeadm_temp_config_files_location }}"
+
+- name: Copy config files for init-node
+  loop: "{{ kubeadm_init_node_config_files }}"
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ item }}.yml"
+
+- name: Create kubeadm config file
+  shell: "cat {{ kubeadm_temp_config_files_location }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
+
+- name: Remove temp directory
+  file:
+    state: absent
+    path: "{{ kubeadm_temp_config_files_location }}"
 
 - name: kubeadm init 
-  shell: kubeadm init --config /etc/kubernetes/config.yml --upload-certs
+  shell: kubeadm init --config "{{ kubeadm_config_file }}" --upload-certs
   register: init_output
 
 - name: Setup kubeconfig
