@@ -1,7 +1,12 @@
-- name: Copy configuration file for kubeadm
-  template:
-    src: join_config.j2
-    dest: /etc/kubernetes/config.yml
+- name: Create config.yml file for additional-node
+  loop:
+  - JoinConfiguration.j2
+  - KubeletConfiguration.j2
+  blockinfile:
+    path:  /etc/kubernetes/config.yml
+    marker_begin: "---"
+    marker_end: "\n"
+    block: "{{ lookup('file','{{ item }}') }}"
 
 - name: Join cluster 
   shell: kubeadm join --config /etc/kubernetes/config.yml

@@ -1,6 +1,7 @@
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: JoinConfiguration
+
 controlPlane:
   certificateKey: {{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['certificate_key'] }}
 discovery:
@@ -9,9 +10,3 @@ discovery:
     token: {{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['bootstrap_token'] }}
     caCertHashes: 
     - {{ ansible_facts['ansible_local']['bootstrap']['kubernetes']['ca_cert_hash'] }}
-
----
-apiVersion: kubelet.config.k8s.io/v1beta1
-kind: KubeletConfiguration
-rotateCertificates: false
-serverTLSBootstrap: true

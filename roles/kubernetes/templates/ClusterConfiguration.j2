@@ -1,10 +1,7 @@
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: InitConfiguration
-certificateKey: {{ certificate_key.stdout }}
-
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
+
 clusterName: {{ kubernetes_cluster_name }}
 kubernetesVersion: {{ kubernetes_cluster_version }}
 controlPlaneEndpoint: {{ api_server_endpoint }} 
@@ -14,9 +11,3 @@ networking:
 apiServer:
   extraArgs:
     authorization-mode: "Node,RBAC"
-
----
-apiVersion: kubelet.config.k8s.io/v1beta1
-kind: KubeletConfiguration
-rotateCertificates: false
-serverTLSBootstrap: true

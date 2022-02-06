@@ -2,10 +2,16 @@
   shell: kubeadm certs certificate-key
   register: certificate_key
 
-- name: Copy configuration file for kubeadm
-  template:
-    src: init_config.j2
-    dest: /etc/kubernetes/config.yml
+- name: Create config.yml file for init-node
+  loop:
+  - InitConfiguration.j2
+  - KubeletConfiguration.j2
+  - ClusterConfiguration.j2
+  blockinfile:
+    path:  /etc/kubernetes/config.yml
+    marker_begin: "---"
+    marker_end: "\n"
+    block: "{{ lookup('file','{{ item }}') }}"
 
 - name: kubeadm init 
   shell: kubeadm init --config /etc/kubernetes/config.yml --upload-certs
