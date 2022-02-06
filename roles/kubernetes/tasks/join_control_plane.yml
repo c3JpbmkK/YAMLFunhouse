@@ -24,7 +24,7 @@
   loop: "{{ kubeadm_join_node_config_files }}"
   shell: "cat {{ kubeadm_config_files_dir }}/{{ item }}.yml >> {{ kubeadm_config_file }}"
 
-- name: Remove temp directory
+- name: Remove temp files directory
   file:
     state: absent
     path: "{{ kubeadm_config_files_dir }}"
