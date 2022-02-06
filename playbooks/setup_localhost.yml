@@ -10,7 +10,7 @@
 
   - name: Group remaining nodes
     loop: "{{ vars['groups']['control_plane']}}"
-    when: 'item not in vars["groups"]["initnode"]'
+    when: 'item not in vars["groups"]["init_node"]'
     add_host:
       hostname: "{{ item }}"
       groups: join_nodes
