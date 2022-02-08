@@ -7,6 +7,12 @@ echo "Creating new kube-bench job"
 kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
 
 PodName=$(kubectl get pods -o name -l app=kube-bench)
+while [ -z "$PodName" ]
+do
+echo "Trying again to get kube-bench pod name"
+PodName=$(kubectl get pods -o name -l app=kube-bench)
+done
+
 Status=$(kubectl get "${PodName}" -o json | jq -r ".status.phase")
 while [ "${Status}" != "Succeeded" ]
 do

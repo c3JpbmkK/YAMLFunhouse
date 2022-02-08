@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
   - name: nginx
-    image: nginx
+    image: nginx:1.21.6
     ports:
     - name: http
       containerPort: 80
@@ -46,7 +46,7 @@ metadata:
 spec:
   containers:
   - name: mongodb
-    image: mongo:latest
+    image: mongo:5.0.6
     ports:
     - name: db
       containerPort: 8080
