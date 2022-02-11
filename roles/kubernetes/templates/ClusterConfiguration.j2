@@ -8,6 +8,7 @@ apiServer:
   extraArgs:
     authorization-mode: {{ authorization_mode }}
     {% if enable_audit == 'true' %}
+    {% raw %}
     audit-log-compress: {{ audit_log_compress }}
     audit-log-format: {{ audit_log_format }}
     audit-log-maxage: {{ audit_log_maxage }}
@@ -15,13 +16,16 @@ apiServer:
     audit-log-maxsize: {{ audit_log_maxsize }}
     audit-log-mode: {{ audit_log_mode }}
     audit-log-path: {{ audit_log_path }}
+    {% endraw %}
     {% endif %}
   extraVolumes:
     {% if enable_audit == 'true' %}
+    {% raw %}
     - name: var_log_kubernetes
       hostPath: {{ audit_log_path }}
       mountPath {{ audit_log_path }}
       pathType: Directory
+    {% endraw %}
     {% endif %}
 networking:
   podSubnet: {{ pod_network_cidr }}
