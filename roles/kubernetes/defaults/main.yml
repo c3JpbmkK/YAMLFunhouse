@@ -72,7 +72,7 @@ pod_network_cidr: 192.168.0.0/16
 service_network_cidr: 10.96.0.0/12
 
 # Cluster authentication paramters
-authorization-mode: "Node,RBAC"
+authorization_mode: "Node,RBAC"
 
 # Cluster audit parameters
 audit_log_compress: true
