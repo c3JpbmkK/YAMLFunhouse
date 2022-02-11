@@ -6,16 +6,16 @@ kubernetesVersion: {{ kubernetes_cluster_version }}
 controlPlaneEndpoint: {{ api_server_endpoint }} 
 apiServer:
   extraArgs:
-    - authorization-mode: {{ authorization_mode }}
+    authorization-mode: {{ authorization_mode }}
     {% if enable_audit == 'true' -%}
     {% block extraArgs -%}
-    - audit-log-compress: {{ audit_log_compress }}
-    - audit-log-format: {{ audit_log_format }}
-    - audit-log-maxage: {{ audit_log_maxage }}
-    - audit-log-maxbackup: {{ audit_log_maxbackup }}
-    - audit-log-maxsize: {{ audit_log_maxsize }}
-    - audit-log-mode: {{ audit_log_mode }}
-    - audit-log-path: {{ audit_log_path }}
+    audit-log-compress: {{ audit_log_compress }}
+    audit-log-format: {{ audit_log_format }}
+    audit-log-maxage: {{ audit_log_maxage }}
+    audit-log-maxbackup: {{ audit_log_maxbackup }}
+    audit-log-maxsize: {{ audit_log_maxsize }}
+    audit-log-mode: {{ audit_log_mode }}
+    audit-log-path: {{ audit_log_path }}
     {% endblock %}
     {% endif %}
 
