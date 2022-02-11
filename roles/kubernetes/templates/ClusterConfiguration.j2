@@ -17,7 +17,7 @@ apiServer:
     audit-log-path: {{ audit_log_path }}
     {% endif %}
   extraVolumes:
-    {% if enable_audit is 'true' %}
+    {% if enable_audit == 'true' %}
     - name: var_log_kubernetes
       hostPath: {{ audit_log_path }}
       mountPath {{ audit_log_path }}
