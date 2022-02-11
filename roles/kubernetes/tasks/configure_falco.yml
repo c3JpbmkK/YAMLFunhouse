@@ -9,8 +9,9 @@
     description: Falcosecurity repo
 
 - name: Clean dnf metadata 
-  shell: dnf clean all
-
+  shell: 
+    cmd: dnf clean all
+    warn: false
 - name: Install Falco requirements
   dnf:
     name:
