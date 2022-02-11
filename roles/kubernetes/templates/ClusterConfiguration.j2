@@ -22,10 +22,14 @@ apiServer:
   extraVolumes:
     {% if enable_audit == 'true' -%}
     {% block extraVolumes -%}
-    - name: "var_log_kubernetes"
+    - name: "log-directory-mount"
+      hostPath: "{{ audit_log_directory }}"
+      mountPath: "{{ audit_log_directory }}"
+      pathType: "DirectoryOrCreate"
+    - name: "log-file-mount"
       hostPath: "{{ audit_log_path }}"
       mountPath: "{{ audit_log_path }}"
-      pathType: "Directory"
+      pathType: "FileOrCreate"
     {% endblock %}
     {% endif %}
 

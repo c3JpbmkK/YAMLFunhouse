@@ -15,7 +15,5 @@ lb.example.com
 
 [control_plane]
 master1.example.com
-master2.example.com
 
 [worker_nodes]
-worker2.example.com

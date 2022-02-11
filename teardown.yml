@@ -6,6 +6,11 @@
     command: kubeadm reset --force
     ignore_errors: yes
   
+  - name: Delete audit logs directory
+    file:
+      state: absent
+      path: /var/log/kubernetes
+
   - name: Delete local facts setup from previous runs if any
     file:
       path: /etc/ansible/facts.d

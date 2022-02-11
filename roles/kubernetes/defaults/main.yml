@@ -80,7 +80,7 @@ audit_log_format: json
 audit_log_maxage: 14
 audit_log_maxbackup: 5
 audit_log_maxsize: 200
-audit_log_mode: batch
+audit_log_mode: blocking
 audit_log_directory: /var/log/kubernetes
 audit_log_path: "{{ audit_log_directory }}/kube-apiserver.log"
 
