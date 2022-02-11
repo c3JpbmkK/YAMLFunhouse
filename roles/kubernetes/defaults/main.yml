@@ -62,8 +62,8 @@ kubeadm_join_node_config_files:
 - KubeletConfiguration
 
 # Cluster parameters
-api_loadbalancer: lbinternal.example.com
-api_server_endpoint: "{{ api_loadbalancer }}:6443"
+api_server_loadbalancer_dns_name: lbinternal.example.com
+api_server_endpoint: "{{ api_server_loadbalancer_dns_name }}:6443"
 kubernetes_cluster_name: workstation 
 kubernetes_cluster_version: v1.23.1
 pod_network_cidr: 192.168.0.0/16
