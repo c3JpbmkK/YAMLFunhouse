@@ -75,13 +75,11 @@ service_network_cidr: 10.96.0.0/12
 authorization_mode: "Node,RBAC"
 
 # Cluster audit parameters
-# Values are "quoted" because the schema is expecting strings
-# CLI would use values as they are
-audit_log_compress: "true"
+audit_log_compress: true
 audit_log_format: json
-audit_log_maxage: "14"
-audit_log_maxbackup: "5"
-audit_log_maxsize: "200"
+audit_log_maxage: 14
+audit_log_maxbackup: 5
+audit_log_maxsize: 200
 audit_log_mode: batch
 audit_log_directory: /var/log/kubernetes
 audit_log_path: "{{ audit_log_directory }}/kube-apiserver.log"
