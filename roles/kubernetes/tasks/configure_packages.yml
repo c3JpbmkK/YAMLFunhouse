@@ -26,5 +26,6 @@
     state: present
 
 - name: Reboot node
+  when: "skip_reboot != 'true'"
   reboot:
    test_command: uptime
