@@ -5,6 +5,6 @@
     state: "{{ selinux.state }}"
 
 - name: Reboot node
-  when: "skip_reboot is false"
+  when: "skip_reboot != 'true'"
   reboot:
     test_command: uptime
