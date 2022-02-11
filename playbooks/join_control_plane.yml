@@ -3,6 +3,7 @@
   gather_facts: no
   vars:
     primary: no
+    skip_reboot: no
   tasks:
   - name: Recreate facts directory 
     file:
