@@ -46,9 +46,11 @@ When VMs are preconfigured (network and SSH)
 | enable_join_control_plane | bool  | false | Join additional nodes to the control plane  |
 | enable_falco | bool  |  false | Install necessary packages and modules for running Falco daemonsets  |
 | enable_audit | bool | false | Enable audit configuration on the kube-apiserver |
+| skip_reboot | boolean | false | Skip reboot steps in the playbook. Only for testing |
+| | | | |
 
 ## Upcoming (maybe)  
 
-* Break roles/kubernetes into playbooks. Why? Its not really a role, its just playbooks put together into the tasks folder  
+* ~Break roles/kubernetes into playbooks. Why? Its not really a role, its just playbooks put together into the tasks folder~  In-progress  
 * Automated loadbalancer node configuration  
 * Automated VM provisioning  

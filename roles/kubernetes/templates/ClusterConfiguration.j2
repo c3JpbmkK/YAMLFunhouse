@@ -24,7 +24,7 @@ apiServer:
     {% block extraVolumes -%}
     - name: var_log_kubernetes
       hostPath: {{ audit_log_path }}
-      mountPath {{ audit_log_path }}
+      mountPath: {{ audit_log_path }}
       pathType: Directory
     {% endblock %}
     {% endif %}
