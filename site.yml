@@ -16,17 +16,11 @@
 
 - name: Join additional nodes to the control-plane 
   when: |
-    ( high_availability is defined ) and
-    ( high_availability == 'true' )
+    ( enable_join_control_plane is defined ) and
+    ( enable_join_control_plane == 'true' )
   import_playbook: playbooks/join_control_plane.yml
   vars:
     site_directory: /home/ansible/kubernetes
-
-- name: Enable audit on kube-apiserver
-  when: |
-    ( enable_audit is defined ) and
-    ( enable_audit == 'true' )
-  import_playbook: playbooks/reconfigure_audit_settings.yml
 
 - name: Join workers to the cluster
   import_playbook: playbooks/join.yml

@@ -1,6 +1,0 @@
----
-- name: Reconfigure Audit settings
-  hosts: control_plane
-  tasks: 
-  - name: Placeholder
-    command: uptime

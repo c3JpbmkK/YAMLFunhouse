@@ -66,8 +66,23 @@ api_server_loadbalancer_dns_name: lbinternal.example.com
 api_server_endpoint: "{{ api_server_loadbalancer_dns_name }}:6443"
 kubernetes_cluster_name: workstation 
 kubernetes_cluster_version: v1.23.1
+
+# Cluster networking parameters
 pod_network_cidr: 192.168.0.0/16
 service_network_cidr: 10.96.0.0/12
+
+# Cluster authentication paramters
+authorization-mode: "Node,RBAC"
+
+# Cluster audit parameters
+audit_log_compress: true
+audit_log_format: json
+audit_log_maxage: 14
+audit_log_maxbackup: 5
+audit_log_maxsize: 200
+audit_log_mode: batch
+audit_log_directory: /var/log/kubernetes
+audit_log_path: "{{ audit_log_directory }}/kube-apiserver.log"
 
 # TODO: Replace this with shell approach
 # Required parameters for identifying bootstrap token

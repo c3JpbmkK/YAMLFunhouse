@@ -33,7 +33,7 @@ Plus I'm learning to use Ansible :grinning:
 When VMs are preconfigured (network and SSH) 
 
 * To bring up a cluster: ansible-playbook site.yml
-  * To add multiple nodes to the control plane: ansible-playbook site.yml -e high_availability=true
+  * To add multiple nodes to the control plane: ansible-playbook site.yml -e enable_join_control_plane=true
   * To use a different cni plugin (default is Weave): ansible-playbook site.yml -e cni_plugin=cilium
   * To configure the nodes for running Falco: ansible-playbook site.yml -e enable_falco=true
 * To destroy a cluster: ansible-playbook teardown.yml  
@@ -43,7 +43,7 @@ When VMs are preconfigured (network and SSH)
 | EXTRA_VARS  | TYPE  | DEFAULT | DESCRIPTION |
 |-------------------  |:------: |:-------:  |-----------------------------------------------  |
 | cni_plugin  | string 	| - | Use a different CNI plugin (default CNI is Weave)  |
-| high_availability | bool  | false | Join additional nodes to the control plane  |
+| enable_join_control_plane | bool  | false | Join additional nodes to the control plane  |
 | enable_falco | bool  |  false | Install necessary packages and modules for running Falco daemonsets  |
 | enable_audit | bool | false | Enable audit configuration on the kube-apiserver |
 
