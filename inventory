@@ -17,3 +17,4 @@ lb.example.com
 master1.example.com
 
 [worker_nodes]
+worker1.example.com
