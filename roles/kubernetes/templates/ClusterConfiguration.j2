@@ -9,6 +9,7 @@ apiServer:
     authorization-mode: "{{ authorization_mode }}"
     {% if enable_audit == 'true' -%}
     {% block extraArgs -%}
+    audit-policy-file: "{{ audit_policy_file }}"
     audit-log-compress: "{{ audit_log_compress }}"
     audit-log-format: "{{ audit_log_format }}"
     audit-log-maxage: "{{ audit_log_maxage }}"
@@ -22,6 +23,14 @@ apiServer:
   extraVolumes:
     {% if enable_audit == 'true' -%}
     {% block extraVolumes -%}
+    - name: policy-directory-mount
+      hostPath: "{{ audit_policy_directory }}"
+      mountPath: "{{ audit_policy_directory }}"
+      pathType: DirectoryOrCreate
+    - name: policy-file
+      hostPath: "{{ audit_policy_file }}"
+      mountPath: "{{ audit_policy_file }}"
+      pathType: FileOrCreate
     - name: "log-directory-mount"
       hostPath: "{{ audit_log_directory }}"
       mountPath: "{{ audit_log_directory }}"

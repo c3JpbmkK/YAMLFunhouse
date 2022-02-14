@@ -1,0 +1,15 @@
+---
+- name: Delete exising audit directory if existing
+  file:
+    path: "{{ audit_policy_directory }}"
+    state: absent
+
+- name: Create audit policy directory
+  file:
+    path: "{{ audit_policy_directory }}"
+    state: directory
+
+- name: Copy audit policy file
+  template:
+    dest: "{{ audit_policy_file }}"
+    src: Policy.j2

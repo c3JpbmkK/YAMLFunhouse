@@ -1,4 +1,8 @@
 ---
+- name: Setup audit files
+  when: "enable_audit == 'true'"
+  include_tasks: subtasks/configure_audit.yml
+
 - name: Setup temp files directory
   file:
     state: directory

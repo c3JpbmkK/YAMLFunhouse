@@ -1,0 +1,14 @@
+apiVersion: audit.k8s.io/v1
+kind: Policy
+{% if omitStages is defined %}
+omitStages: 
+{% for stage in omitStages %}
+{{ item }}
+{% endfor %}
+{% endif %}
+rules:
+{% if audit_rules is defined %}
+{{ audit_rules }}
+{% else %}
+- level: Metadata
+{% endif %}

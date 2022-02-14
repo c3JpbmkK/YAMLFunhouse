@@ -83,6 +83,8 @@ audit_log_maxsize: 200
 audit_log_mode: blocking
 audit_log_directory: /var/log/kubernetes
 audit_log_path: "{{ audit_log_directory }}/kube-apiserver.log"
+audit_policy_directory: /etc/kubernetes/audit
+audit_policy_file: "{{ audit_policy_directory }}/audit.yml"
 
 # TODO: Replace this with shell approach
 # Required parameters for identifying bootstrap token
