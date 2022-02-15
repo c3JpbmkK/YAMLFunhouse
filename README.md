@@ -54,3 +54,4 @@ When VMs are preconfigured (network and SSH)
 * ~Break roles/kubernetes into playbooks. Why? Its not really a role, its just playbooks put together into the tasks folder~  In-progress  
 * Automated loadbalancer node configuration  
 * Automated VM provisioning  
+* Install tools on managed nodes: vim, etcdctl, calicoctl, cilium etc
