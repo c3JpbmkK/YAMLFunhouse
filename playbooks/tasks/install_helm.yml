@@ -5,6 +5,7 @@
   changed_when: false
   register: helm_output
 
+
 - name: Install Helm
   when: helm_output.rc != 0
   block:

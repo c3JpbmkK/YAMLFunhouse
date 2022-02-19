@@ -1,0 +1,58 @@
+---
+- name: Check if Istioctl is installed
+  ignore_errors: true
+  command: istioctl version
+  changed_when: false
+  register: istio_output
+
+- name: Install Istioctl
+  when: istio_output.rc != 0
+  block:
+  - name: Setup dropsite
+    file:
+      path: /tmp/ansible_downloads
+      state: directory
+
+  - name: Download Istioctl
+    vars:
+      istio_version: istio-1.13.0
+      istio_latest_release_url: https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz 
+      istio_latest_release_url_sha256sum: https://github.com/istio/istio/releases/download/1.13.0/istio-1.13.0-linux-amd64.tar.gz.sha256
+    get_url:
+      url: "{{ istio_latest_release_url }}"
+      dest: /tmp/ansible_downloads/istio.tar.gz
+      checksum: "sha256:{{ istio_latest_release_url_sha256sum }}"
+
+  - name: Create temp directory
+    file: 
+      path: /tmp/ansible_downloads/contents
+      state: directory
+
+  - name: Unpack Istioctl archive
+    unarchive:
+      src: /tmp/ansible_downloads/istio.tar.gz
+      dest: /tmp/ansible_downloads/contents
+
+  - name: Copy istioctl cli to /bin
+    become: yes
+    vars:
+      istio_version: istio-1.13.0
+    copy:
+      src: /tmp/ansible_downloads/contents/{{ istio_version }}/bin/istioctl
+      dest: /bin/istioctl
+      mode: 0755
+
+  - name: Remove dropsite
+    file:
+      path: /tmp/ansible_downloads
+      state: absent
+
+- name: Check Istioctl install
+  command: istioctl version
+  changed_when: no
+  register: istio_output
+
+- name: Ensure Istioctl is installed
+  fail:
+    msg: "Istioctl install unsuccessfull"
+  when: istio_output.rc != 0

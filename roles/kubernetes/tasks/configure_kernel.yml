@@ -20,3 +20,6 @@
   lineinfile:
     line: "{{ item.key }}={{ item.value }}"
     path: /etc/sysctl.d/90-k8s.conf
+
+- name: Load kernel parameters
+  shell: sysctl --system

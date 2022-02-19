@@ -8,6 +8,9 @@
   - name: Setup Helm on localhost
     include_tasks: tasks/install_helm.yml
 
+  - name: Setup istioctl on localhost
+    include_tasks: tasks/install_istioctl.yml
+
   - name: Deploy weave
     when: 'cni_plugin == ""'
     ignore_errors: yes
