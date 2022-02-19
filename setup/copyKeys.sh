@@ -2,7 +2,7 @@
 
 if [ ! -f ~/.ssh/id_rsa ]
 then
-	ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -C "ansible@control.example.com" -P ""
+	ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -C "ansible@control.sysctls.com" -P ""
 fi
 
 pkill ssh-agent || echo "No ssh-agent processes running"

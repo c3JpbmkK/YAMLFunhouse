@@ -23,30 +23,30 @@
   - name: Create AppStream repository
     yum_repository:
       name: AppStream
-      description: AppStream repository on ftp://control.example.com
-      baseurl: ftp://control.example.com/repo/AppStream/
+      description: AppStream repository on ftp://control.sysctls.com
+      baseurl: ftp://control.sysctls.com/repo/AppStream/
       enabled: yes
       gpgcheck: yes
       gpgkey: 
-      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
-      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+      - ftp://control.sysctls.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.sysctls.com/repo/RPM-GPG-KEY-redhat-release
 
   - name: Create BaseOS repository
     yum_repository:
       name: BaseOS
-      description: BaseOS repository on ftp://control.example.com
-      baseurl: ftp://control.example.com/repo/BaseOS/
+      description: BaseOS repository on ftp://control.sysctls.com
+      baseurl: ftp://control.sysctls.com/repo/BaseOS/
       enabled: yes
       gpgcheck: yes
       gpgkey: 
-      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-beta
-      - ftp://control.example.com/repo/RPM-GPG-KEY-redhat-release
+      - ftp://control.sysctls.com/repo/RPM-GPG-KEY-redhat-beta
+      - ftp://control.sysctls.com/repo/RPM-GPG-KEY-redhat-release
 
   - name: Create Dyno repository
     yum_repository:
       name: Dynorepo
       description: Repo containing specific packages downloaded using dnf
-      baseurl: ftp://control.example.com/custom/
+      baseurl: ftp://control.sysctls.com/custom/
       gpgcheck: no
       enabled: yes
 
