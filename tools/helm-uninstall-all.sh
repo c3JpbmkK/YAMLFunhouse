@@ -12,3 +12,6 @@ do
     helm delete --namespace "$ReleaseNamespace" "$ReleaseName"
     ReleasesCount=$(( $ReleasesCount - 1 ))
 done
+
+echo "Deleting all namespaces with selector helmDelete=true"
+kubectl delete ns -l helmDelete=true

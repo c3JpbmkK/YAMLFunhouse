@@ -8,8 +8,10 @@ kubectl delete ns cert-manager || echo "No existing namespace found"
 
 echo "Creating cert-manager namespace"
 kubectl create ns cert-manager
+kubectl label ns cert-manager helmDelete=true
+
+echo "Deploying chart jetstack/cert-manager"
 helm install cert-manager jetstack/cert-manager \
     --namespace cert-manager \
     --version v1.7.1 \
-    --set prometheus.enabled=false \
     --set installCRDs=true

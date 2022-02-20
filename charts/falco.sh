@@ -8,5 +8,8 @@ kubectl delete ns falco || echo "No existing namespace found"
 
 echo "Creating falco namespace"
 kubectl create ns falco
+kubectl label ns falco helmDelete=true
+
+echo "Deploying chart falcosecurity/falco"
 helm install falco falcosecurity/falco \
     --namespace falco

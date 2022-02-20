@@ -8,5 +8,8 @@ kubectl delete ns gatekeeper-system || echo "No existing namespace found"
 
 echo "Creating gatekeeper-system namespace"
 kubectl create ns gatekeeper-system
+kubectl label ns gatekeeper-system helmDelete=true
+
+echo "Deploying chart gatekeeper/gatekeeper"
 helm install gatekeeper gatekeeper/gatekeeper \
     --namespace gatekeeper-system
