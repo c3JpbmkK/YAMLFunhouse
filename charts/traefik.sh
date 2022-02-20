@@ -13,9 +13,6 @@ kubectl label ns traefik helmDelete=true
 echo "Deploying chart traefik/traefik"
 helm install traefik traefik/traefik \
     --namespace traefik \
-    --set ingressClass.enabled=true \
-    --set pilot.enabled=true \
-    --set ingressRoute.dashboard.enabled=true \
     --set logs.general.format=json \
     --set logs.general.level=INFO \
     --set tracing.instana.enabled=true
