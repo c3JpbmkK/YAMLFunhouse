@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-except
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 4245
+      protocol: TCP
+    - port: 6443
+      protocol: TCP
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/8 
+        except: 
+        - 10.101.5.164/32

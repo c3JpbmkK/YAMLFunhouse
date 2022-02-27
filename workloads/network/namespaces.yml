@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata: 
+  labels:
+    tier: frontend
+  name: ns1
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    tier: backend
+  name: ns2
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns3
+  labels:
+    tier: backend
+    vector: remote
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns4
+  labels:
+    tier: storage

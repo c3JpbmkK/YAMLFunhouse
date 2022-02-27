@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sp1
+  labels:
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sp2
+  labels:
+    yield: cks
+    tier: backend
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sp3
+  labels:
+    yield: cks
+    tier: backend
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sp4
+  labels:
+    tier: backend
