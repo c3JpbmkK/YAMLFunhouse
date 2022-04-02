@@ -1,0 +1,13 @@
+control
+
+[webservers]
+server1
+server2
+
+[storage_servers]
+server3
+server4
+
+[servers:children]
+webservers
+storage_servers
