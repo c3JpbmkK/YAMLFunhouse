@@ -1,6 +1,7 @@
 ---
 - name: Setup control 
   hosts: control
+  remote_user: root
   collections: &collections
   - ansible.builtin
   - ansible.posix
@@ -59,6 +60,7 @@
       
 - name: Cleanup control 
   hosts: control
+  remote_user: root
   collections: *collections
   tasks:
   - name: Setup fetch destination
