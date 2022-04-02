@@ -35,3 +35,27 @@
       src: ~/.ssh/id_rsa.pub
       dest: "keys/{{ inventory_hostname }}/id_rsa.pub"
       flat: true
+
+  - name: List keys in control
+    delegate_to: control
+    shell: "ls {{ playbook_dir }}/keys"
+    register: keys
+
+  - name: Make tmp directory
+    file:
+      state: directory
+      path: /tmp/keys.d
+
+  - name: Copy every public key to every server
+    loop: "{{ keys.stdout_lines }}"
+    copy:
+      src: "keys/{{ item }}/id_rsa.pub"
+      dest: "/tmp/keys.d/{{ item }}.pub"
+
+  - name: Create authorized_keys file
+    shell: "cat /tmp/keys.d/*.pub > ~/.ssh/authorized_keys"
+
+  - name: Remove tmp directory
+    file:
+      state: absent
+      path: /tmp/keys.d
