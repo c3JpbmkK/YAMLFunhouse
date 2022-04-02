@@ -1,7 +1,7 @@
 ---
 - name: Setup control 
   hosts: control
-  collections:
+  collections: &collections
   - ansible.builtin
   - ansible.posix
   - ansible.netcommon
@@ -16,11 +16,7 @@
 - name: Setup public key access between all hosts
   hosts: all 
   remote_user: root
-  collections:
-  - ansible.builtin
-  - ansible.posix
-  - ansible.netcommon
-  - community.general
+  collections: *collections
   tasks:
   - name: Create SSH key for root user
     user:
@@ -63,11 +59,7 @@
       
 - name: Cleanup control 
   hosts: control
-  collections:
-  - ansible.builtin
-  - ansible.posix
-  - ansible.netcommon
-  - community.general
+  collections: *collections
   tasks:
   - name: Setup fetch destination
     file:
