@@ -1,5 +1,5 @@
 ---
-- name: Fetch public key from  
+- name: Setup control 
   hosts: control
   collections:
   - ansible.builtin
@@ -10,11 +10,11 @@
   - name: Setup fetch destination
     file:
       state: directory
-      path: keys
+      path: "{{ playbook_dir }}/keys"
 
 
 - name: Setup public key access between all hosts
-  hosts: servers
+  hosts: all 
   remote_user: root
   collections:
   - ansible.builtin
@@ -59,3 +59,18 @@
     file:
       state: absent
       path: /tmp/keys.d
+
+      
+- name: Cleanup control 
+  hosts: control
+  collections:
+  - ansible.builtin
+  - ansible.posix
+  - ansible.netcommon
+  - community.general
+  tasks:
+  - name: Setup fetch destination
+    file:
+      state: absent 
+      path: "{{ playbook_dir }}/keys"
+
