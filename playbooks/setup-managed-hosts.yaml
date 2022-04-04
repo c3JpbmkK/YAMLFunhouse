@@ -18,6 +18,7 @@
       name: dvd_appstream
       description: AppStream
       file: dvd_appstream
+      enabled: yes
       baseurl: ftp://control.sysctls.com/pub/dvd/AppStream/
       gpgcheck: yes
       gpgkey: 
@@ -29,6 +30,7 @@
       name: dvd_baseos
       description: BaseOS
       file: dvd_baseos
+      enabled: yes
       baseurl: ftp://control.sysctls.com/pub/dvd/BaseOS/
       gpgcheck: yes
       gpgkey: 
