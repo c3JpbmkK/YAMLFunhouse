@@ -1,6 +1,6 @@
 control
 
-[webservers]
+[web_servers]
 server1
 server2
 
@@ -9,5 +9,5 @@ server3
 server4
 
 [servers:children]
-webservers
+web_servers
 storage_servers

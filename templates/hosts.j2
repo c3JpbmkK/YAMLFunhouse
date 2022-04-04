@@ -1,0 +1,7 @@
+127.0.0.1   localhost localhost.localdomain
+::1         localhost localhost.localdomain
+
+
+{% for item in hostvars|dict2items %}
+{{ item['value']['ansible_host'] }} {{ item['key'] }}.{{ lab_domain }} {{ item['key'] }}
+{% endfor %}

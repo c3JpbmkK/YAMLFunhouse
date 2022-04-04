@@ -1,0 +1,48 @@
+---
+- name: Setup localhost
+  hosts: localhost
+  collections:
+  - ansible.builtin
+  - ansible.posix
+  - ansible.netcommon
+  - community.general
+  tasks:
+  - name: Mount DVD read-only
+    mount:
+      path: /var/ftp/pub/dvd
+      src: /dev/sr0
+      fstype: iso9660
+      opts: ro,noauto
+      state: mounted
+   
+  - name: Install vsftpd
+    dnf:
+      name: vsftpd
+      state: present
+
+  - name: Enable anonymous ftp access
+    lineinfile:
+      line: anonymous_enable=YES
+      regex: anonymous_enable=*
+      path: /etc/vsftpd/vsftpd.conf
+
+  - name: Set SELinux to permissive
+    lineinfile:
+      line: SELINUX=permissive
+      regex: SELINUX=*
+      path: /etc/selinux/config
+   
+  - name: Set SELinux to permissive
+    shell: setenforce 0
+
+  - name: Open firewall port
+    firewalld:
+      service: ftp
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+  - name: Restart vsftpd
+    service:
+      name: vsftpd
+      state: restarted
