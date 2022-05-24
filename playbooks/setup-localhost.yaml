@@ -27,13 +27,10 @@
       path: /etc/vsftpd/vsftpd.conf
 
   - name: Set SELinux to permissive
-    lineinfile:
-      line: SELINUX=permissive
-      regex: SELINUX=*
-      path: /etc/selinux/config
-   
-  - name: Set SELinux to permissive
-    shell: setenforce 0
+    selinux:
+      policy: targeted
+      state: permissive
+      configfile: /etc/selinux/config
 
   - name: Open firewall port
     firewalld:
