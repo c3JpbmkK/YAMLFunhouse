@@ -11,3 +11,8 @@ echo "Creating resources"
 az deployment group create --resource-group $resourceGroup \
     --template-file bicep/main.bicep \
     --parameters sshPublicKey="$(cat ~/.ssh/id_rsa.pub)"
+
+echo "Getting Public IPs"
+az vm list-ip-addresses --query [].[virtualMachine.name,virtualMachine.network.publicIpAddresses[0].ipAddress] -o tsv \
+    | tr '\t' ' ' \
+    | awk -F " " '{print $1" ansible_host="$2}'

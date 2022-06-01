@@ -14,16 +14,16 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
         '10.0.0.0/8'
       ]
     }
-  }
-}
-
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
-  parent: vnet
-  name: '${resourceGroup().name}-vm-subnet'
-  properties: {
-    addressPrefix: '10.20.30.0/24'
-    privateEndpointNetworkPolicies: 'Enabled'
-    privateLinkServiceNetworkPolicies: 'Enabled'
+    subnets: [
+      {
+        name: '${resourceGroup().name}-vm-subnet'
+        properties: {
+          addressPrefix: '10.20.30.0/24'
+          privateEndpointNetworkPolicies: 'Enabled'
+          privateLinkServiceNetworkPolicies: 'Enabled'
+        }      
+      }
+    ]
   }
 }
 
@@ -53,7 +53,7 @@ resource symbolicname 'Microsoft.Compute/virtualMachines@2021-11-01' = [ for i i
                       }
                     }
                     subnet: {
-                      id: subnet.id
+                      id: vnet.properties.subnets[0].id
                     }
                   }
                 }
